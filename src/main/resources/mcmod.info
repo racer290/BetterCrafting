@@ -1,0 +1,16 @@
+[
+{
+  "modid": "bettercrafting",
+  "name": "Better Crafting",
+  "description": "This mod adds some new and interesting crafting mechanics!",
+  "version": "${version}",
+  "mcversion": "${mcversion}",
+  "url": "",
+  "updateUrl": "",
+  "authorList": ["racer290"],
+  "credits": "Many big mod authors and tutorial makers. You taught me how to mod!",
+  "logoFile": "",
+  "screenshots": [],
+  "dependencies": []
+}
+]

@@ -1,0 +1,10 @@
+{
+    "forge_marker": 1,
+    "defaults": {
+    	"model": "bettercrafting:craftingresult"
+    },
+    "variants": {
+        "normal": [{}],
+        "inventory": [{}]
+    }
+}
