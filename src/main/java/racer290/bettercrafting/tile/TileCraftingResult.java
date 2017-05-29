@@ -64,6 +64,8 @@ public class TileCraftingResult extends TileModInventory implements ITickable {
 		
 		this.getInventory().setStackInSlot(0, this.currentRecipe.getOutput());
 		
+		BetterCrafting.LOGGER.info("recipe finished");
+		
 		this.ticksCrafting = 0;
 		this.currentRecipe = null;
 		
@@ -128,76 +130,6 @@ public class TileCraftingResult extends TileModInventory implements ITickable {
 		
 		this.ticksCrafting = 0;
 		this.currentRecipe = null;
-		
-	}
-	
-	public ItemStack[][][] rotateMatrix(ItemStack[][][] in, int angle) {
-		
-		if (in == null) throw new NullPointerException();
-		
-		ItemStack[][][] out = new ItemStack[CubicCraftingRecipe.DEFAULT_MATRIX_LENGTH][CubicCraftingRecipe.DEFAULT_MATRIX_LENGTH][CubicCraftingRecipe.DEFAULT_MATRIX_LENGTH];
-		
-		switch (angle) {
-			
-			case 0:
-				return in;
-			case 1:
-				
-				for (int y = 0; y < CubicCraftingRecipe.DEFAULT_MATRIX_LENGTH; y++) {
-					
-					out[2][y][0] = in[0][y][0];
-					out[2][y][1] = in[1][y][0];
-					out[2][y][2] = in[2][y][0];
-					out[1][y][0] = in[0][y][1];
-					out[1][y][1] = in[1][y][1];
-					out[1][y][2] = in[2][y][1];
-					out[0][y][0] = in[0][y][2];
-					out[0][y][1] = in[1][y][2];
-					out[0][y][2] = in[2][y][2];
-					
-				}
-				
-				break;
-				
-			case 2:
-				
-				for (int y = 0; y < CubicCraftingRecipe.DEFAULT_MATRIX_LENGTH; y++) {
-					
-					out[2][y][2] = in[0][y][0];
-					out[1][y][2] = in[1][y][0];
-					out[0][y][2] = in[2][y][0];
-					out[2][y][1] = in[0][y][1];
-					out[1][y][1] = in[1][y][1];
-					out[0][y][1] = in[2][y][1];
-					out[2][y][0] = in[0][y][2];
-					out[1][y][0] = in[1][y][2];
-					out[0][y][0] = in[2][y][2];
-					
-				}
-				
-				break;
-				
-			case 3:
-				
-				for (int y = 0; y < CubicCraftingRecipe.DEFAULT_MATRIX_LENGTH; y++) {
-					
-					out[0][y][2] = in[0][y][0];
-					out[0][y][1] = in[1][y][0];
-					out[0][y][0] = in[2][y][0];
-					out[1][y][2] = in[0][y][1];
-					out[1][y][1] = in[1][y][1];
-					out[1][y][0] = in[2][y][1];
-					out[2][y][2] = in[0][y][2];
-					out[2][y][1] = in[1][y][2];
-					out[2][y][0] = in[2][y][2];
-					
-				}
-				
-				break;
-				
-		}
-		
-		return out;
 		
 	}
 	
