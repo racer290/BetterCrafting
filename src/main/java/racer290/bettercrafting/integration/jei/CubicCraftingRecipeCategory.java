@@ -1,18 +1,20 @@
-package racer290.bettercrafting.jei;
+package racer290.bettercrafting.integration.jei;
+
+import java.util.List;
 
 import mezz.jei.api.IGuiHelper;
 import mezz.jei.api.gui.IDrawable;
 import mezz.jei.api.gui.IRecipeLayout;
 import mezz.jei.api.ingredients.IIngredients;
 import mezz.jei.api.recipe.BlankRecipeCategory;
+import mezz.jei.api.recipe.IRecipeWrapper;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.item.ItemStack;
 import racer290.bettercrafting.BetterCrafting;
 import racer290.bettercrafting.block.BlockHelper;
 
-
-public class CubicCraftingRecipeCategory extends BlankRecipeCategory<CubicCraftingRecipeWrapper> {
+public class CubicCraftingRecipeCategory extends BlankRecipeCategory<IRecipeWrapper> {
 	
 	private IDrawable background;
 	
@@ -56,7 +58,20 @@ public class CubicCraftingRecipeCategory extends BlankRecipeCategory<CubicCrafti
 	}
 	
 	@Override
-	public void setRecipe(IRecipeLayout recipeLayout, CubicCraftingRecipeWrapper recipeWrapper, IIngredients ingredients) {
+	public void setRecipe(IRecipeLayout recipeLayout, IRecipeWrapper recipeWrapper, IIngredients ingredients) {
+		
+		if (!(recipeWrapper instanceof CubicCraftingRecipeWrapper)) return;
+		
+		List<List<ItemStack>> recipeIngredients = ingredients.getInputs(ItemStack.class);
+		
+		for (int i = 0; i < recipeIngredients.size(); i++) {
+			
+			recipeLayout.getItemStacks().init(i, true, 20 + 10 * i, 10 + 5 * i);
+			recipeLayout.getItemStacks().set(i, recipeIngredients.get(i));
+			
+		}
+		
+		recipeLayout.getItemStacks().init(27, false, 100, 200);
 		
 	}
 	
