@@ -9,7 +9,6 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumHand;
-import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.util.ITickable;
 import net.minecraft.util.math.BlockPos;
 import net.minecraftforge.items.ItemHandlerHelper;
@@ -51,8 +50,6 @@ public class TileCraftingResult extends TileModInventory implements ITickable {
 		
 		if (this.currentRecipe == null) return;
 		
-		this.craftingFX();
-		
 		if (++this.ticksCrafting < this.currentRecipe.getTicks()) return;
 		
 		for (BlockPos current : TileCraftingResult.MULTIBLOCK_MAPPINGS.keySet()) {
@@ -66,8 +63,6 @@ public class TileCraftingResult extends TileModInventory implements ITickable {
 		}
 		
 		this.getInventory().setStackInSlot(0, this.currentRecipe.getOutput());
-		
-		BetterCrafting.LOGGER.info("recipe finished");
 		
 		this.ticksCrafting = 0;
 		this.currentRecipe = null;
@@ -133,24 +128,6 @@ public class TileCraftingResult extends TileModInventory implements ITickable {
 		
 		this.ticksCrafting = 0;
 		this.currentRecipe = null;
-		
-	}
-	
-	private void craftingFX() {
-		
-		if (this.ticksCrafting % 10 == 0) {
-			
-			for (int angle = 0; angle < 360; angle += 15) {
-				
-				double offX = this.getPos().getX() + 0.5 + Math.cos(Math.toRadians(angle)) * 2;
-				double offY = this.getPos().getY() + 0.5;
-				double offZ = this.getPos().getZ() + 0.5 + Math.sin(Math.toRadians(angle)) * 2;
-				
-				this.getWorld().spawnParticle(EnumParticleTypes.FIREWORKS_SPARK, offX, offY, offZ, 0, 0.2, 0);
-				
-			}
-			
-		}
 		
 	}
 	

@@ -1,5 +1,7 @@
 # eclipse
-bin
+bin/
+logs/
+libs/
 *.launch
 .settings
 .metadata
@@ -18,5 +20,5 @@ build
 .gradle
 
 # other
-eclipse
-run
+eclipse/
+run/

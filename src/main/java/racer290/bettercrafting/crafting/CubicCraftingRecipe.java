@@ -6,7 +6,11 @@ import javax.annotation.Nonnull;
 
 import com.google.common.collect.Sets;
 
+import net.minecraft.block.Block;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.NonNullList;
+import net.minecraftforge.oredict.OreDictionary;
 import racer290.bettercrafting.BetterCrafting;
 
 public class CubicCraftingRecipe {
@@ -14,7 +18,7 @@ public class CubicCraftingRecipe {
 	public static final int DEFAULT_MATRIX_LENGTH = 3;
 	public static final int DEFAULT_TICKS_PER_OPERATION = 200; // aka 10 secs
 	
-	private Object[][][] input;
+	private Ingredient[][][] input;
 	private ItemStack output;
 	
 	private final int ticks;
@@ -23,13 +27,13 @@ public class CubicCraftingRecipe {
 	private final int sizeY;
 	private final int sizeZ;
 	
-	public CubicCraftingRecipe(Object[][][] in, ItemStack out) {
+	public CubicCraftingRecipe(Ingredient[][][] in, ItemStack out) {
 		
 		this(in, out, DEFAULT_TICKS_PER_OPERATION, true);
 		
 	}
 	
-	public CubicCraftingRecipe(Object[][][] in, @Nonnull ItemStack out, int ticks, boolean translate) {
+	public CubicCraftingRecipe(Ingredient[][][] in, @Nonnull ItemStack out, int ticks, boolean translate) {
 		
 		if (ticks < 1) {
 			
@@ -51,41 +55,47 @@ public class CubicCraftingRecipe {
 		int minX = DEFAULT_MATRIX_LENGTH, minY = DEFAULT_MATRIX_LENGTH, minZ = DEFAULT_MATRIX_LENGTH;
 		int maxX = -1, maxY = -1, maxZ = -1;
 		
-		for (int z = 0; z < DEFAULT_MATRIX_LENGTH; z++) {
+		try {
 			
-			for (int y = 0; y < DEFAULT_MATRIX_LENGTH; y++) {
+			for (int z = 0; z < DEFAULT_MATRIX_LENGTH; z++) {
 				
-				for (int x = 0; x < DEFAULT_MATRIX_LENGTH; x++) {
+				for (int y = 0; y < DEFAULT_MATRIX_LENGTH; y++) {
 					
-					if (in[x][y][z] instanceof String) {
+					for (int x = 0; x < DEFAULT_MATRIX_LENGTH; x++) {
 						
-						if (minX > x) minX = x;
-						if (minY > y) minY = y;
-						if (minZ > z) minZ = z;
-						
-						if (maxX < x) maxX = x;
-						if (maxY < y) maxY = y;
-						if (maxZ < z) maxZ = z;
-						
-					} else if (in[x][y][z] instanceof ItemStack) {
-
-						if (minX > x) minX = x;
-						if (minY > y) minY = y;
-						if (minZ > z) minZ = z;
-						
-						if (maxX < x) maxX = x;
-						if (maxY < y) maxY = y;
-						if (maxZ < z) maxZ = z;
-						
-					} else {
-						
-						throw new IllegalArgumentException("Cubic recipes cannot contain elements of the type " + (in[x][y][z] == null ? "null" : in[x][y][z].getClass().getName()) + "!");
+						if (!in[x][y][z].matches(ItemStack.EMPTY)) {
+							
+							if (minX > x) {
+								minX = x;
+							}
+							if (minY > y) {
+								minY = y;
+							}
+							if (minZ > z) {
+								minZ = z;
+							}
+							
+							if (maxX < x) {
+								maxX = x;
+							}
+							if (maxY < y) {
+								maxY = y;
+							}
+							if (maxZ < z) {
+								maxZ = z;
+							}
+							
+						}
 						
 					}
 					
 				}
 				
 			}
+			
+		} catch (ArrayIndexOutOfBoundsException ex) {
+			
+			throw new IllegalArgumentException("Tried to construct a recipe with insufficient size! Hint: elements with [x][y][z] such that x, y or z > 2 will be ignored!");
 			
 		}
 		
@@ -156,7 +166,7 @@ public class CubicCraftingRecipe {
 		
 	}
 	
-	public Object[][][] getInputMatrix() {
+	public Ingredient[][][] getInputMatrix() {
 		
 		return this.input;
 		
@@ -174,9 +184,9 @@ public class CubicCraftingRecipe {
 		
 	}
 	
-	private Object[][][] offsetInputMatrix(int offsetX, int offsetY, int offsetZ) {
+	private Ingredient[][][] offsetInputMatrix(int offsetX, int offsetY, int offsetZ) {
 		
-		Object[][][] offset = nullMatrix();
+		Ingredient[][][] offset = nullMatrix();
 		
 		for (int z = 0; z < DEFAULT_MATRIX_LENGTH; z++) {
 			
@@ -190,7 +200,7 @@ public class CubicCraftingRecipe {
 						
 					} catch (ArrayIndexOutOfBoundsException ex) {
 						
-						if (this.getInputMatrix()[x][y][z] instanceof ItemStack && !((ItemStack) this.getInputMatrix()[x][y][z]).isEmpty()) throw ex;
+						if (!this.getInputMatrix()[x][y][z].matches(ItemStack.EMPTY)) throw ex;
 						
 					}
 					
@@ -204,9 +214,11 @@ public class CubicCraftingRecipe {
 		
 	}
 	
-	private static ItemStack[][][] nullMatrix() {
+	public static Ingredient[][][] nullMatrix() {
 		
-		ItemStack[][][] matrix = new ItemStack[DEFAULT_MATRIX_LENGTH][DEFAULT_MATRIX_LENGTH][DEFAULT_MATRIX_LENGTH];
+		Ingredient[][][] matrix = new Ingredient[DEFAULT_MATRIX_LENGTH][DEFAULT_MATRIX_LENGTH][DEFAULT_MATRIX_LENGTH];
+		
+		Ingredient empty = new Ingredient(ItemStack.EMPTY);
 		
 		for (int z = 0; z < DEFAULT_MATRIX_LENGTH; z++) {
 			
@@ -214,7 +226,7 @@ public class CubicCraftingRecipe {
 				
 				for (int x = 0; x < DEFAULT_MATRIX_LENGTH; x++) {
 					
-					matrix[x][y][z] = ItemStack.EMPTY;
+					matrix[x][y][z] = empty;
 					
 				}
 				
@@ -223,6 +235,58 @@ public class CubicCraftingRecipe {
 		}
 		
 		return matrix;
+		
+	}
+	
+	public static class Ingredient {
+		
+		private final Object ingredientRaw;
+		private final NonNullList<ItemStack> stacks;
+		
+		public static Ingredient EMPTY = new Ingredient(ItemStack.EMPTY);
+		
+		public Ingredient(@Nonnull Object ingredient) {
+			
+			this.ingredientRaw = ingredient;
+			
+			if (this.ingredientRaw instanceof String) {
+				
+				this.stacks = OreDictionary.getOres((String) ingredient);
+				
+			} else if (this.ingredientRaw instanceof ItemStack) {
+				
+				this.stacks = ((ItemStack) this.ingredientRaw).isEmpty() ? null : NonNullList.withSize(1, (ItemStack) ingredient);
+				
+			} else if (this.ingredientRaw instanceof Item) {
+				
+				this.stacks = NonNullList.withSize(1, new ItemStack((Item) this.ingredientRaw));
+				
+			} else if (this.ingredientRaw instanceof Block) {
+				
+				this.stacks = NonNullList.withSize(1, new ItemStack((Block) this.ingredientRaw));
+				
+			} else
+				throw new IllegalArgumentException("Type " + ingredient.getClass() + " is not permitted as ingredient");
+			
+		}
+		
+		public boolean matches(ItemStack stack) {
+			
+			if (this.stacks == null)
+				return stack.isEmpty();
+			else if (this.stacks.size() > 1) {
+				
+				for (ItemStack current : this.stacks) {
+					
+					if (current.getItem() == stack.getItem() && current.getMetadata() == stack.getMetadata() && stack.getItemDamage() <= current.getItemDamage()) return true;
+					
+				}
+				
+			} else if (this.stacks.size() == 1) return this.stacks.get(0).getItem() == stack.getItem() && this.stacks.get(0).getMetadata() == stack.getMetadata() && stack.getItemDamage() <= this.stacks.get(0).getItemDamage();
+			
+			return false;
+			
+		}
 		
 	}
 	

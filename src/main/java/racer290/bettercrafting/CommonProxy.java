@@ -10,6 +10,7 @@ import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import racer290.bettercrafting.block.BlockHelper;
 import racer290.bettercrafting.crafting.CubicCraftingRecipe;
+import racer290.bettercrafting.crafting.CubicCraftingRecipe.Ingredient;
 
 public class CommonProxy {
 	
@@ -44,15 +45,16 @@ public class CommonProxy {
 		
 		ArrayList<CubicCraftingRecipe> recipes = new ArrayList<>();
 		
-		ItemStack dirt = new ItemStack(Blocks.DIRT);
+		Ingredient dirt = new Ingredient(Blocks.DIRT);
+		Ingredient empty = new Ingredient(ItemStack.EMPTY);
 		
-		ItemStack[][][] matrix = new ItemStack[][][] {
+		Ingredient[][][] matrix = new Ingredient[][][] {
 			
-				{ { dirt, dirt, ItemStack.EMPTY }, { ItemStack.EMPTY, ItemStack.EMPTY, ItemStack.EMPTY }, { ItemStack.EMPTY, ItemStack.EMPTY, ItemStack.EMPTY } },
+				{ { dirt, dirt, empty }, { empty, empty, empty }, { empty, empty, empty } },
 			
-			{ { ItemStack.EMPTY, ItemStack.EMPTY, ItemStack.EMPTY }, { ItemStack.EMPTY, ItemStack.EMPTY, ItemStack.EMPTY }, { ItemStack.EMPTY, ItemStack.EMPTY, ItemStack.EMPTY } },
+				{ { empty, empty, empty }, { empty, empty, empty }, { empty, empty, empty } },
 			
-			{ { ItemStack.EMPTY, ItemStack.EMPTY, ItemStack.EMPTY }, { ItemStack.EMPTY, ItemStack.EMPTY, ItemStack.EMPTY }, { ItemStack.EMPTY, ItemStack.EMPTY, ItemStack.EMPTY } }
+				{ { empty, empty, empty }, { empty, empty, empty }, { empty, empty, empty } }
 			
 		};
 		

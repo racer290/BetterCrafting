@@ -49,25 +49,7 @@ public class CubicCraftingManager {
 		
 		for (CubicCraftingRecipe current : this.recipes) {
 			
-			boolean alive = true;
-			
-			for (int z = 0; z < CubicCraftingRecipe.DEFAULT_MATRIX_LENGTH; z++) {
-				
-				for (int y = 0; y < CubicCraftingRecipe.DEFAULT_MATRIX_LENGTH; y++) {
-					
-					for (int x = 0; x < CubicCraftingRecipe.DEFAULT_MATRIX_LENGTH; x++) {
-						
-						if (!this.stacksMatch(current.getInputMatrix()[x][y][z], matrix[x][y][z])) {
-							alive = false;
-						}
-						
-					}
-					
-				}
-				
-			}
-			
-			if (alive) return current;
+			if (CubicCraftingManager.recipeMatches(current, matrix)) return current;
 			
 		}
 		
@@ -81,11 +63,23 @@ public class CubicCraftingManager {
 		
 	}
 	
-	public boolean stacksMatch(ItemStack stack, ItemStack anotherStack) {
+	public static boolean recipeMatches(CubicCraftingRecipe recipe, ItemStack[][][] matrix) {
 		
-		if (stack.isEmpty() && anotherStack.isEmpty()) return true;
+		for (int z = 0; z < CubicCraftingRecipe.DEFAULT_MATRIX_LENGTH; z++) {
+			
+			for (int y = 0; y < CubicCraftingRecipe.DEFAULT_MATRIX_LENGTH; y++) {
+				
+				for (int x = 0; x < CubicCraftingRecipe.DEFAULT_MATRIX_LENGTH; x++) {
+					
+					if (!recipe.getInputMatrix()[x][y][z].matches(matrix[x][y][z])) return false;
+					
+				}
+				
+			}
+			
+		}
 		
-		return stack.getItem() == anotherStack.getItem() && stack.getItemDamage() == anotherStack.getItemDamage();
+		return true;
 		
 	}
 	
