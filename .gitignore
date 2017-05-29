@@ -22,3 +22,6 @@ build
 # other
 eclipse/
 run/
+gradlew
+gradlew.bat
+build.bat
