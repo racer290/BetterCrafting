@@ -1,5 +1,6 @@
 package racer290.bettercrafting.crafting;
 
+import java.util.List;
 import java.util.Set;
 
 import javax.annotation.Nonnull;
@@ -285,6 +286,12 @@ public class CubicCraftingRecipe {
 			} else if (this.stacks.size() == 1) return this.stacks.get(0).getItem() == stack.getItem() && this.stacks.get(0).getMetadata() == stack.getMetadata() && stack.getItemDamage() <= this.stacks.get(0).getItemDamage();
 			
 			return false;
+			
+		}
+		
+		public List<ItemStack> getAll() {
+			
+			return this.stacks;
 			
 		}
 		
