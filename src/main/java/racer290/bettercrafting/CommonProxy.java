@@ -46,25 +46,21 @@ public class CommonProxy {
 		ArrayList<CubicCraftingRecipe> recipes = new ArrayList<>();
 		
 		Ingredient dirt = new Ingredient(Blocks.DIRT);
-		Ingredient empty = new Ingredient(ItemStack.EMPTY);
+		// Ingredient empty = new Ingredient(ItemStack.EMPTY);
 		
 		Ingredient[][][] matrix = new Ingredient[][][] {
 			
-				{ { dirt, dirt, empty }, { empty, empty, empty }, { empty, empty, empty } },
+			{ { dirt, dirt, dirt }, { dirt, dirt, dirt }, { dirt, dirt, dirt } },
 			
-				{ { empty, empty, empty }, { empty, empty, empty }, { empty, empty, empty } },
+			{ { dirt, dirt, dirt }, { dirt, dirt, dirt }, { dirt, dirt, dirt } },
 			
-				{ { empty, empty, empty }, { empty, empty, empty }, { empty, empty, empty } }
+			{ { dirt, dirt, dirt }, { dirt, dirt, dirt }, { dirt, dirt, dirt } }
 			
 		};
 		
 		recipes.add(new CubicCraftingRecipe(matrix, new ItemStack(Items.DIAMOND)));
 		
-		for (CubicCraftingRecipe current : recipes) {
-			
-			BetterCrafting.craftingManager.registerRecipe(current);
-			
-		}
+		BetterCrafting.craftingManager.registerAll(recipes);
 		
 	}
 	
