@@ -147,7 +147,13 @@ public class CubicCraftingRecipe {
 		
 		Set<CubicCraftingRecipe> translated = Sets.newHashSet();
 		
-		if (this.sizeX == DEFAULT_MATRIX_LENGTH && this.sizeY == DEFAULT_MATRIX_LENGTH && this.sizeX == DEFAULT_MATRIX_LENGTH) return translated;
+		if (this.sizeX == DEFAULT_MATRIX_LENGTH && this.sizeY == DEFAULT_MATRIX_LENGTH && this.sizeX == DEFAULT_MATRIX_LENGTH) {
+			
+			translated.add(this);
+			
+			return translated;
+			
+		}
 		
 		for (int dz = 0; dz <= DEFAULT_MATRIX_LENGTH - this.sizeZ; dz++) {
 			
@@ -219,7 +225,7 @@ public class CubicCraftingRecipe {
 		
 		Ingredient[][][] matrix = new Ingredient[DEFAULT_MATRIX_LENGTH][DEFAULT_MATRIX_LENGTH][DEFAULT_MATRIX_LENGTH];
 		
-		Ingredient empty = new Ingredient(ItemStack.EMPTY);
+		Ingredient empty = Ingredient.EMPTY;
 		
 		for (int z = 0; z < DEFAULT_MATRIX_LENGTH; z++) {
 			
@@ -239,6 +245,10 @@ public class CubicCraftingRecipe {
 		
 	}
 	
+	/**
+	 * A class for handling different types of input, including oredict.
+	 * Designed to work with JEI & Crafttweaker.
+	 */
 	public static class Ingredient {
 		
 		private final Object ingredientRaw;
