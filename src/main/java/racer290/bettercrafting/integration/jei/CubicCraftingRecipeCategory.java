@@ -12,7 +12,6 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.item.ItemStack;
 import racer290.bettercrafting.BetterCrafting;
-import racer290.bettercrafting.block.BlockHelper;
 
 public class CubicCraftingRecipeCategory extends BlankRecipeCategory<IRecipeWrapper> {
 	
@@ -23,7 +22,7 @@ public class CubicCraftingRecipeCategory extends BlankRecipeCategory<IRecipeWrap
 	
 	public CubicCraftingRecipeCategory(IGuiHelper guiHelper) {
 		
-		this.background = guiHelper.createBlankDrawable(168, 64);
+		this.background = guiHelper.createBlankDrawable(112, 230);
 		
 		this.title = I18n.format(CubicCraftingRecipeCategory.UID + ".jei.title");
 		
@@ -53,8 +52,6 @@ public class CubicCraftingRecipeCategory extends BlankRecipeCategory<IRecipeWrap
 	@Override
 	public void drawExtras(Minecraft minecraft) {
 		
-		Minecraft.getMinecraft().getRenderItem().renderItemIntoGUI(new ItemStack(BlockHelper.blockCraftingResult), 100, 50);
-		
 	}
 	
 	@Override
@@ -71,7 +68,8 @@ public class CubicCraftingRecipeCategory extends BlankRecipeCategory<IRecipeWrap
 			
 		}
 		
-		recipeLayout.getItemStacks().init(27, false, 100, 200);
+		recipeLayout.getItemStacks().init(27, false, 30, 48);
+		recipeLayout.getItemStacks().set(27, ingredients.getOutputs(ItemStack.class).get(0));
 		
 	}
 	

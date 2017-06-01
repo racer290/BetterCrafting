@@ -1,9 +1,9 @@
 package racer290.bettercrafting.integration.jei;
 
+import java.util.ArrayList;
 import java.util.List;
 
-import com.google.common.collect.ImmutableList;
-import com.google.common.collect.ImmutableList.Builder;
+import com.google.common.collect.Lists;
 
 import mezz.jei.api.ingredients.IIngredients;
 import mezz.jei.api.recipe.BlankRecipeWrapper;
@@ -11,7 +11,6 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.item.ItemStack;
 import racer290.bettercrafting.crafting.CubicCraftingRecipe;
 import racer290.bettercrafting.crafting.CubicCraftingRecipe.Ingredient;
-
 
 public class CubicCraftingRecipeWrapper extends BlankRecipeWrapper {
 	
@@ -24,7 +23,7 @@ public class CubicCraftingRecipeWrapper extends BlankRecipeWrapper {
 		
 		this.ticks = wrapped.getTicks();
 		
-		Builder<List<ItemStack>> builder = ImmutableList.builder();
+		ArrayList<List<ItemStack>> in = Lists.newArrayList();
 		
 		for (Ingredient[][] a : wrapped.getInputMatrix()) {
 			
@@ -32,7 +31,7 @@ public class CubicCraftingRecipeWrapper extends BlankRecipeWrapper {
 				
 				for (Ingredient current : b) {
 					
-					builder.add(current.getAll());
+					in.add(current.getAll());
 					
 				}
 				
@@ -40,7 +39,7 @@ public class CubicCraftingRecipeWrapper extends BlankRecipeWrapper {
 			
 		}
 		
-		this.input = builder.build();
+		this.input = in;
 		
 		this.output = wrapped.getOutput().copy();
 		

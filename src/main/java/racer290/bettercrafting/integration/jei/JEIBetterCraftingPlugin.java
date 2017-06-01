@@ -29,7 +29,7 @@ public class JEIBetterCraftingPlugin extends BlankModPlugin {
 			
 		}, CubicCraftingRecipeCategory.UID);
 		
-		registry.addRecipes(BetterCrafting.craftingManager.getRecipes(), CubicCraftingRecipeCategory.UID);
+		registry.addRecipes(BetterCrafting.craftingManager.getRecipesUntranslated(), CubicCraftingRecipeCategory.UID);
 		
 		registry.addRecipeCategoryCraftingItem(new ItemStack(BlockHelper.blockCraftingResult), CubicCraftingRecipeCategory.UID);
 		
