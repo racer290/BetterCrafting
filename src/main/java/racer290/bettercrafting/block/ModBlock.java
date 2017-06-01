@@ -5,14 +5,19 @@ import java.util.Map.Entry;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
+import net.minecraft.entity.item.EntityItem;
 import net.minecraft.item.Item;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.World;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import racer290.bettercrafting.BetterCrafting;
+import racer290.bettercrafting.tile.TileModInventory;
 
 public abstract class ModBlock extends Block {
 	
@@ -57,6 +62,23 @@ public abstract class ModBlock extends Block {
 			Minecraft.getMinecraft().getRenderItem().getItemModelMesher().register(Item.getItemFromBlock(this), current.getKey(), new ModelResourceLocation(this.getRegistryName(), current.getValue()));
 			
 			// ModelLoader.setCustomModelResourceLocation(Item.getItemFromBlock(this), current.getKey(), new ModelResourceLocation(this.getRegistryName(), current.getValue()));
+			
+		}
+		
+	}
+	
+	@Override
+	public void breakBlock(World worldIn, BlockPos pos, IBlockState state) {
+		
+		if (worldIn.getTileEntity(pos) instanceof TileModInventory) {
+			
+			TileModInventory inv = (TileModInventory) worldIn.getTileEntity(pos);
+			
+			for (int slot = 0; slot < inv.getInventory().getSlots(); slot++) {
+				
+				worldIn.spawnEntity(new EntityItem(worldIn, pos.getX(), pos.getY(), pos.getZ(), inv.getInventory().getStackInSlot(slot)));
+				
+			}
 			
 		}
 		
