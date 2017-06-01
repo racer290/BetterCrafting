@@ -103,7 +103,7 @@ public class TileModInventory extends TileEntity {
 		
 	}
 	
-	protected class CustomItemHandler extends ItemStackHandler {
+	public class CustomItemHandler extends ItemStackHandler {
 		
 		private boolean changeable;
 		private int[] stackLimits;

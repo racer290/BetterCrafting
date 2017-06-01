@@ -46,9 +46,13 @@ public class TileCraftingResult extends TileModInventory implements ITickable {
 			
 		}
 		
+		BetterCrafting.LOGGER.info("o");
+		
 		this.currentRecipe = BetterCrafting.craftingManager.getRecipeForMatrix(this.getMatrix());
 		
 		if (this.currentRecipe == null) return;
+		
+		BetterCrafting.LOGGER.info("k");
 		
 		if (++this.ticksCrafting < this.currentRecipe.getTicks()) return;
 		
