@@ -8,10 +8,11 @@ import mezz.jei.api.gui.IRecipeLayout;
 import mezz.jei.api.ingredients.IIngredients;
 import mezz.jei.api.recipe.BlankRecipeCategory;
 import mezz.jei.api.recipe.IRecipeWrapper;
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.ResourceLocation;
 import racer290.bettercrafting.BetterCrafting;
+import racer290.bettercrafting.crafting.CubicCraftingRecipe;
 
 public class CubicCraftingRecipeCategory extends BlankRecipeCategory<IRecipeWrapper> {
 	
@@ -22,7 +23,7 @@ public class CubicCraftingRecipeCategory extends BlankRecipeCategory<IRecipeWrap
 	
 	public CubicCraftingRecipeCategory(IGuiHelper guiHelper) {
 		
-		this.background = guiHelper.createBlankDrawable(112, 230);
+		this.background = guiHelper.createDrawable(new ResourceLocation(BetterCrafting.MODID, "textures/gui/jei_background.png"), 0, 0, 114, 232, 114, 232);
 		
 		this.title = I18n.format(CubicCraftingRecipeCategory.UID + ".jei.title");
 		
@@ -50,20 +51,18 @@ public class CubicCraftingRecipeCategory extends BlankRecipeCategory<IRecipeWrap
 	}
 	
 	@Override
-	public void drawExtras(Minecraft minecraft) {
-		
-	}
-	
-	@Override
 	public void setRecipe(IRecipeLayout recipeLayout, IRecipeWrapper recipeWrapper, IIngredients ingredients) {
 		
 		if (!(recipeWrapper instanceof CubicCraftingRecipeWrapper)) return;
 		
 		List<List<ItemStack>> recipeIngredients = ingredients.getInputs(ItemStack.class);
 		
+		for (int layer = 0; layer < CubicCraftingRecipe.DEFAULT_MATRIX_LENGTH; layer++) {
+			
+		}
+		
 		for (int i = 0; i < recipeIngredients.size(); i++) {
 			
-			recipeLayout.getItemStacks().init(i, true, 20 + 10 * i, 10 + 5 * i);
 			recipeLayout.getItemStacks().set(i, recipeIngredients.get(i));
 			
 		}

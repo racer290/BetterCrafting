@@ -18,6 +18,7 @@ import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.util.Constants.NBT;
 import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.ItemStackHandler;
+import racer290.bettercrafting.BetterCrafting;
 
 /**
  * This file is very similar to <a href=
@@ -148,6 +149,8 @@ public class TileModInventory extends TileEntity {
 		
 		@Override
 		public ItemStack insertItem(int slot, ItemStack stack, boolean simulate) {
+			
+			BetterCrafting.LOGGER.info("Item: " + stack.getDisplayName() + ", metadata: " + stack.getMetadata());
 			
 			return this.changeable ? stack : super.insertItem(slot, stack, simulate);
 			

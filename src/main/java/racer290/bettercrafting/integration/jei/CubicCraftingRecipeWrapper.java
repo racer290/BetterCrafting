@@ -1,5 +1,6 @@
 package racer290.bettercrafting.integration.jei;
 
+import java.awt.Color;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -8,6 +9,7 @@ import com.google.common.collect.Lists;
 import mezz.jei.api.ingredients.IIngredients;
 import mezz.jei.api.recipe.BlankRecipeWrapper;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.item.ItemStack;
 import racer290.bettercrafting.crafting.CubicCraftingRecipe;
 import racer290.bettercrafting.crafting.CubicCraftingRecipe.Ingredient;
@@ -56,7 +58,9 @@ public class CubicCraftingRecipeWrapper extends BlankRecipeWrapper {
 	@Override
 	public void drawInfo(Minecraft minecraft, int recipeWidth, int recipeHeight, int mouseX, int mouseY) {
 		
-		// TODO Draw recipe duration!
+		FontRenderer font = minecraft.fontRendererObj;
+		
+		font.drawString("Recipe takes " + this.ticks + " to craft", 0, 0, Color.GRAY.getRGB());
 		
 	}
 	
