@@ -1,5 +1,6 @@
 package racer290.bettercrafting.crafting;
 
+import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
@@ -13,15 +14,19 @@ import net.minecraft.item.ItemStack;
 
 public class CubicCraftingManager {
 	
+	private Set<CubicCraftingRecipe> untranslated;
 	private Set<CubicCraftingRecipe> recipes;
 	
 	public CubicCraftingManager() {
 		
 		this.recipes = Sets.newConcurrentHashSet();
+		this.untranslated = Sets.newConcurrentHashSet();
 		
 	}
 	
 	public void registerRecipe(@Nonnull CubicCraftingRecipe recipe) {
+		
+		this.untranslated.add(recipe);
 		
 		Set<CubicCraftingRecipe> translated = recipe.getAllTranslated();
 		
@@ -57,9 +62,19 @@ public class CubicCraftingManager {
 		
 	}
 	
-	public void removeRecipe(@Nonnull CubicCraftingRecipe recipe) {
+	public void removeRecipe(@Nonnull ItemStack out) {
 		
-		this.recipes.remove(recipe);
+		Iterator<CubicCraftingRecipe> it = this.recipes.iterator();
+		
+		while (it.hasNext()) {
+			
+			CubicCraftingRecipe current = it.next();
+			
+			if (current.getOutput().getItem() == out.getItem()) {
+				this.recipes.remove(current);
+			}
+			
+		}
 		
 	}
 	
@@ -86,6 +101,12 @@ public class CubicCraftingManager {
 	public ImmutableSet<CubicCraftingRecipe> getRecipes() {
 		
 		return ImmutableSet.copyOf(this.recipes);
+		
+	}
+	
+	public ImmutableSet<CubicCraftingRecipe> getRecipesUntranslated() {
+		
+		return ImmutableSet.copyOf(this.untranslated);
 		
 	}
 	

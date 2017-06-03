@@ -17,11 +17,13 @@ public class TileCraftingSlot extends TileModInventory {
 	
 	public void rightClick(EntityPlayer activator, EnumHand hand) {
 		
-		if (this.getInventory().getStackInSlot(0).isEmpty() && !activator.getHeldItem(hand).isEmpty()) {
+		ItemStack cachedStack = activator.getHeldItem(hand);
+		
+		if (this.getInventory().getStackInSlot(0).isEmpty() && !cachedStack.isEmpty()) {
 			
-			this.getInventory().setStackInSlot(0, new ItemStack(activator.getHeldItem(hand).getItem(), 1));
+			this.getInventory().setStackInSlot(0, ItemHandlerHelper.copyStackWithSize(cachedStack, 1));
 			
-			activator.getHeldItem(hand).shrink(1);
+			cachedStack.shrink(1);
 			
 		} else {
 			
