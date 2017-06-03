@@ -60,7 +60,7 @@ public class CubicCraftingRecipeWrapper extends BlankRecipeWrapper {
 		
 		FontRenderer font = minecraft.fontRendererObj;
 		
-		font.drawString("Recipe takes " + this.ticks + " to craft", 0, 0, Color.GRAY.getRGB());
+		font.drawString(this.ticks + " ticks", 0, 0, Color.GRAY.getRGB());
 		
 	}
 	
