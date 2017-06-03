@@ -8,7 +8,7 @@ import mezz.jei.api.recipe.IRecipeWrapperFactory;
 import net.minecraft.item.ItemStack;
 import racer290.bettercrafting.BetterCrafting;
 import racer290.bettercrafting.block.BlockHelper;
-import racer290.bettercrafting.crafting.CubicCraftingRecipe;
+import racer290.bettercrafting.crafting.ShapedCubicCraftingRecipe;
 
 @JEIPlugin
 public class JEIBetterCraftingPlugin extends BlankModPlugin {
@@ -18,10 +18,10 @@ public class JEIBetterCraftingPlugin extends BlankModPlugin {
 		
 		registry.addRecipeCategories(new CubicCraftingRecipeCategory(registry.getJeiHelpers().getGuiHelper()));
 		
-		registry.handleRecipes(CubicCraftingRecipe.class, new IRecipeWrapperFactory<CubicCraftingRecipe>() {
+		registry.handleRecipes(ShapedCubicCraftingRecipe.class, new IRecipeWrapperFactory<ShapedCubicCraftingRecipe>() {
 			
 			@Override
-			public IRecipeWrapper getRecipeWrapper(CubicCraftingRecipe recipe) {
+			public IRecipeWrapper getRecipeWrapper(ShapedCubicCraftingRecipe recipe) {
 				
 				return new CubicCraftingRecipeWrapper(recipe);
 				
@@ -29,7 +29,7 @@ public class JEIBetterCraftingPlugin extends BlankModPlugin {
 			
 		}, CubicCraftingRecipeCategory.UID);
 		
-		registry.addRecipes(BetterCrafting.craftingManager.getRecipesUntranslated(), CubicCraftingRecipeCategory.UID);
+		registry.addRecipes(BetterCrafting.craftingManager.getRecipes(), CubicCraftingRecipeCategory.UID);
 		
 		registry.addRecipeCategoryCraftingItem(new ItemStack(BlockHelper.blockCraftingResult), CubicCraftingRecipeCategory.UID);
 		

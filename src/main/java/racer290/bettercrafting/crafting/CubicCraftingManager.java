@@ -14,33 +14,45 @@ import net.minecraft.item.ItemStack;
 
 public class CubicCraftingManager {
 	
-	private Set<CubicCraftingRecipe> untranslated;
-	private Set<CubicCraftingRecipe> recipes;
+	private Set<BaseCubicCraftingRecipe> recipes;
+	private Set<BaseCubicCraftingRecipe> rawRecipes;
 	
 	public CubicCraftingManager() {
 		
+		this.rawRecipes = Sets.newConcurrentHashSet();
 		this.recipes = Sets.newConcurrentHashSet();
-		this.untranslated = Sets.newConcurrentHashSet();
 		
 	}
 	
-	public void registerRecipe(@Nonnull CubicCraftingRecipe recipe) {
+	public void registerRecipe(BaseCubicCraftingRecipe recipe) {
 		
-		this.untranslated.add(recipe);
+		if (this.recipes.stream().map(current -> current.getOutput().getItem()).anyMatch(item -> recipe.getOutput().getItem() == item)) return;
 		
-		Set<CubicCraftingRecipe> translated = recipe.getAllTranslated();
+		this.recipes.add(recipe);
 		
-		for (CubicCraftingRecipe current : translated) {
+		if (recipe instanceof ShapedCubicCraftingRecipe) {
 			
-			this.recipes.add(current);
+			this.registerShapedRecipe((ShapedCubicCraftingRecipe) recipe);
+			
+		} else {
 			
 		}
 		
 	}
 	
-	public void registerAll(List<CubicCraftingRecipe> recipes) {
+	public void registerShapedRecipe(ShapedCubicCraftingRecipe recipe) {
 		
-		for (CubicCraftingRecipe current : recipes) {
+		for (ShapedCubicCraftingRecipe current : recipe.getAllTranslated()) {
+			
+			this.rawRecipes.add(current);
+			
+		}
+		
+	}
+	
+	public void registerAll(List<BaseCubicCraftingRecipe> recipes) {
+		
+		for (BaseCubicCraftingRecipe current : recipes) {
 			
 			this.registerRecipe(current);
 			
@@ -48,13 +60,11 @@ public class CubicCraftingManager {
 		
 	}
 	
-	public @Nullable CubicCraftingRecipe getRecipeForMatrix(ItemStack[][][] matrix) {
+	public @Nullable BaseCubicCraftingRecipe getRecipeForMatrix(ItemStack[][][] matrix) {
 		
-		if (matrix == null) return null;
-		
-		for (CubicCraftingRecipe current : this.recipes) {
+		for (BaseCubicCraftingRecipe current : this.rawRecipes) {
 			
-			if (CubicCraftingManager.recipeMatches(current, matrix)) return current;
+			if (current.matches(matrix)) return current;
 			
 		}
 		
@@ -64,11 +74,23 @@ public class CubicCraftingManager {
 	
 	public void removeRecipe(@Nonnull ItemStack out) {
 		
-		Iterator<CubicCraftingRecipe> it = this.recipes.iterator();
+		Iterator<BaseCubicCraftingRecipe> it = this.rawRecipes.iterator();
 		
 		while (it.hasNext()) {
 			
-			CubicCraftingRecipe current = it.next();
+			BaseCubicCraftingRecipe current = it.next();
+			
+			if (current.getOutput().getItem() == out.getItem()) {
+				this.rawRecipes.remove(current);
+			}
+			
+		}
+		
+		it = this.recipes.iterator();
+		
+		while (it.hasNext()) {
+			
+			BaseCubicCraftingRecipe current = it.next();
 			
 			if (current.getOutput().getItem() == out.getItem()) {
 				this.recipes.remove(current);
@@ -78,35 +100,15 @@ public class CubicCraftingManager {
 		
 	}
 	
-	public static boolean recipeMatches(CubicCraftingRecipe recipe, ItemStack[][][] matrix) {
+	public ImmutableSet<BaseCubicCraftingRecipe> getRecipesRaw() {
 		
-		for (int z = 0; z < CubicCraftingRecipe.DEFAULT_MATRIX_LENGTH; z++) {
-			
-			for (int y = 0; y < CubicCraftingRecipe.DEFAULT_MATRIX_LENGTH; y++) {
-				
-				for (int x = 0; x < CubicCraftingRecipe.DEFAULT_MATRIX_LENGTH; x++) {
-					
-					if (!recipe.getInputMatrix()[x][y][z].matches(matrix[x][y][z])) return false;
-					
-				}
-				
-			}
-			
-		}
-		
-		return true;
+		return ImmutableSet.copyOf(this.rawRecipes);
 		
 	}
 	
-	public ImmutableSet<CubicCraftingRecipe> getRecipes() {
+	public ImmutableSet<BaseCubicCraftingRecipe> getRecipes() {
 		
 		return ImmutableSet.copyOf(this.recipes);
-		
-	}
-	
-	public ImmutableSet<CubicCraftingRecipe> getRecipesUntranslated() {
-		
-		return ImmutableSet.copyOf(this.untranslated);
 		
 	}
 	

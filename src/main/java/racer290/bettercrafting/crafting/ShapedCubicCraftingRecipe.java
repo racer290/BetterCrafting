@@ -1,40 +1,29 @@
 package racer290.bettercrafting.crafting;
 
-import java.util.List;
 import java.util.Set;
 
 import javax.annotation.Nonnull;
 
 import com.google.common.collect.Sets;
 
-import net.minecraft.block.Block;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.NonNullList;
-import net.minecraftforge.oredict.OreDictionary;
 import racer290.bettercrafting.BetterCrafting;
 
-public class CubicCraftingRecipe {
-	
-	public static final int DEFAULT_MATRIX_LENGTH = 3;
-	public static final int DEFAULT_TICKS_PER_OPERATION = 200; // aka 10 secs
+public class ShapedCubicCraftingRecipe extends BaseCubicCraftingRecipe {
 	
 	private Ingredient[][][] input;
-	private ItemStack output;
-	
-	private final int ticks;
 	
 	private final int sizeX;
 	private final int sizeY;
 	private final int sizeZ;
 	
-	public CubicCraftingRecipe(Ingredient[][][] in, ItemStack out) {
+	public ShapedCubicCraftingRecipe(Ingredient[][][] in, ItemStack out) {
 		
 		this(in, out, DEFAULT_TICKS_PER_OPERATION, true);
 		
 	}
 	
-	public CubicCraftingRecipe(Ingredient[][][] in, @Nonnull ItemStack out, int ticks, boolean translate) {
+	public ShapedCubicCraftingRecipe(Ingredient[][][] in, @Nonnull ItemStack out, int ticks, boolean translate) {
 		
 		if (ticks < 1) {
 			
@@ -143,9 +132,9 @@ public class CubicCraftingRecipe {
 		
 	}
 	
-	public Set<CubicCraftingRecipe> getAllTranslated() {
+	public Set<ShapedCubicCraftingRecipe> getAllTranslated() {
 		
-		Set<CubicCraftingRecipe> translated = Sets.newHashSet();
+		Set<ShapedCubicCraftingRecipe> translated = Sets.newHashSet();
 		
 		if (this.sizeX == DEFAULT_MATRIX_LENGTH && this.sizeY == DEFAULT_MATRIX_LENGTH && this.sizeX == DEFAULT_MATRIX_LENGTH) {
 			
@@ -161,7 +150,7 @@ public class CubicCraftingRecipe {
 				
 				for (int dx = 0; dx <= DEFAULT_MATRIX_LENGTH - this.sizeX; dx++) {
 					
-					translated.add(new CubicCraftingRecipe(this.offsetInputMatrix(dx, dy, dz), this.getOutput(), this.getTicks(), false));
+					translated.add(new ShapedCubicCraftingRecipe(this.offsetInputMatrix(dx, dy, dz), this.getOutput(), this.getTicks(), false));
 					
 				}
 				
@@ -173,18 +162,41 @@ public class CubicCraftingRecipe {
 		
 	}
 	
+	@Override
+	public boolean matches(ItemStack[][][] matrix) {
+		
+		for (int z = 0; z < ShapedCubicCraftingRecipe.DEFAULT_MATRIX_LENGTH; z++) {
+			
+			for (int y = 0; y < ShapedCubicCraftingRecipe.DEFAULT_MATRIX_LENGTH; y++) {
+				
+				for (int x = 0; x < ShapedCubicCraftingRecipe.DEFAULT_MATRIX_LENGTH; x++) {
+					
+					if (!this.getInputMatrix()[x][y][z].matches(matrix[x][y][z])) return false;
+					
+				}
+				
+			}
+			
+		}
+		
+		return true;
+		
+	}
+	
 	public Ingredient[][][] getInputMatrix() {
 		
 		return this.input;
 		
 	}
 	
+	@Override
 	public ItemStack getOutput() {
 		
 		return this.output;
 		
 	}
 	
+	@Override
 	public int getTicks() {
 		
 		return this.ticks;
@@ -218,92 +230,6 @@ public class CubicCraftingRecipe {
 		}
 		
 		return offset;
-		
-	}
-	
-	public static Ingredient[][][] nullMatrix() {
-		
-		Ingredient[][][] matrix = new Ingredient[DEFAULT_MATRIX_LENGTH][DEFAULT_MATRIX_LENGTH][DEFAULT_MATRIX_LENGTH];
-		
-		Ingredient empty = Ingredient.EMPTY;
-		
-		for (int z = 0; z < DEFAULT_MATRIX_LENGTH; z++) {
-			
-			for (int y = 0; y < DEFAULT_MATRIX_LENGTH; y++) {
-				
-				for (int x = 0; x < DEFAULT_MATRIX_LENGTH; x++) {
-					
-					matrix[x][y][z] = empty;
-					
-				}
-				
-			}
-			
-		}
-		
-		return matrix;
-		
-	}
-	
-	/**
-	 * A class for handling different types of input, including oredict.
-	 * Designed to work with JEI & Crafttweaker.
-	 */
-	public static class Ingredient {
-		
-		private final Object ingredientRaw;
-		private final NonNullList<ItemStack> stacks;
-		
-		public static Ingredient EMPTY = new Ingredient(ItemStack.EMPTY);
-		
-		public Ingredient(@Nonnull Object ingredient) {
-			
-			this.ingredientRaw = ingredient;
-			
-			if (this.ingredientRaw instanceof String) {
-				
-				this.stacks = OreDictionary.getOres((String) ingredient);
-				
-			} else if (this.ingredientRaw instanceof ItemStack) {
-				
-				this.stacks = ((ItemStack) this.ingredientRaw).isEmpty() ? null : NonNullList.withSize(1, (ItemStack) ingredient);
-				
-			} else if (this.ingredientRaw instanceof Item) {
-				
-				this.stacks = NonNullList.withSize(1, new ItemStack((Item) this.ingredientRaw));
-				
-			} else if (this.ingredientRaw instanceof Block) {
-				
-				this.stacks = NonNullList.withSize(1, new ItemStack((Block) this.ingredientRaw));
-				
-			} else
-				throw new IllegalArgumentException("Type " + ingredient.getClass() + " is not permitted as ingredient");
-			
-		}
-		
-		public boolean matches(ItemStack stack) {
-			
-			if (this.stacks == null)
-				return stack.isEmpty();
-			else if (this.stacks.size() > 1) {
-				
-				for (ItemStack current : this.stacks) {
-					
-					if (current.getItem() == stack.getItem() && current.getMetadata() == stack.getMetadata() && stack.getItemDamage() <= current.getItemDamage()) return true;
-					
-				}
-				
-			} else if (this.stacks.size() == 1) return this.stacks.get(0).getItem() == stack.getItem() && this.stacks.get(0).getMetadata() == stack.getMetadata() && stack.getItemDamage() <= this.stacks.get(0).getItemDamage();
-			
-			return false;
-			
-		}
-		
-		public List<ItemStack> getAll() {
-			
-			return this.stacks;
-			
-		}
 		
 	}
 	

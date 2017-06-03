@@ -14,14 +14,15 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraftforge.items.ItemHandlerHelper;
 import racer290.bettercrafting.BetterCrafting;
 import racer290.bettercrafting.block.BlockHelper;
-import racer290.bettercrafting.crafting.CubicCraftingRecipe;
+import racer290.bettercrafting.crafting.BaseCubicCraftingRecipe;
+import racer290.bettercrafting.crafting.ShapedCubicCraftingRecipe;
 
 public class TileCraftingResult extends TileModInventory implements ITickable {
 	
 	private static ImmutableMap<BlockPos, Block> MULTIBLOCK_MAPPINGS;
 	
 	private int ticksCrafting;
-	private CubicCraftingRecipe currentRecipe;
+	private BaseCubicCraftingRecipe currentRecipe;
 	
 	@Override
 	public void update() {
@@ -87,7 +88,7 @@ public class TileCraftingResult extends TileModInventory implements ITickable {
 	
 	private ItemStack[][][] getMatrix() {
 		
-		ItemStack[][][] matrix = new ItemStack[CubicCraftingRecipe.DEFAULT_MATRIX_LENGTH][CubicCraftingRecipe.DEFAULT_MATRIX_LENGTH][CubicCraftingRecipe.DEFAULT_MATRIX_LENGTH];
+		ItemStack[][][] matrix = new ItemStack[ShapedCubicCraftingRecipe.DEFAULT_MATRIX_LENGTH][ShapedCubicCraftingRecipe.DEFAULT_MATRIX_LENGTH][ShapedCubicCraftingRecipe.DEFAULT_MATRIX_LENGTH];
 		
 		for (Entry<BlockPos, Block> current : TileCraftingResult.MULTIBLOCK_MAPPINGS.entrySet()) {
 			

@@ -12,7 +12,7 @@ import net.minecraft.client.resources.I18n;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import racer290.bettercrafting.BetterCrafting;
-import racer290.bettercrafting.crafting.CubicCraftingRecipe;
+import racer290.bettercrafting.crafting.ShapedCubicCraftingRecipe;
 
 public class CubicCraftingRecipeCategory extends BlankRecipeCategory<IRecipeWrapper> {
 	
@@ -57,7 +57,7 @@ public class CubicCraftingRecipeCategory extends BlankRecipeCategory<IRecipeWrap
 		
 		List<List<ItemStack>> recipeIngredients = ingredients.getInputs(ItemStack.class);
 		
-		for (int layer = 0; layer < CubicCraftingRecipe.DEFAULT_MATRIX_LENGTH; layer++) {
+		for (int layer = 0; layer < ShapedCubicCraftingRecipe.DEFAULT_MATRIX_LENGTH; layer++) {
 			
 			int baseSlot = layer * 9;
 			int baseY = 30 + (2 - layer) * 68;

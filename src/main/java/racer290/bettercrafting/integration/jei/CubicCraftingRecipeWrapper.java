@@ -11,8 +11,8 @@ import mezz.jei.api.recipe.BlankRecipeWrapper;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.item.ItemStack;
-import racer290.bettercrafting.crafting.CubicCraftingRecipe;
-import racer290.bettercrafting.crafting.CubicCraftingRecipe.Ingredient;
+import racer290.bettercrafting.crafting.BaseCubicCraftingRecipe.Ingredient;
+import racer290.bettercrafting.crafting.ShapedCubicCraftingRecipe;
 
 public class CubicCraftingRecipeWrapper extends BlankRecipeWrapper {
 	
@@ -21,7 +21,7 @@ public class CubicCraftingRecipeWrapper extends BlankRecipeWrapper {
 	private List<List<ItemStack>> input;
 	private ItemStack output;
 	
-	public CubicCraftingRecipeWrapper(CubicCraftingRecipe wrapped) {
+	public CubicCraftingRecipeWrapper(ShapedCubicCraftingRecipe wrapped) {
 		
 		this.ticks = wrapped.getTicks();
 		

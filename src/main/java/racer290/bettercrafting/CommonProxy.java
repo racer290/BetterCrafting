@@ -9,8 +9,9 @@ import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import racer290.bettercrafting.block.BlockHelper;
-import racer290.bettercrafting.crafting.CubicCraftingRecipe;
-import racer290.bettercrafting.crafting.CubicCraftingRecipe.Ingredient;
+import racer290.bettercrafting.crafting.BaseCubicCraftingRecipe;
+import racer290.bettercrafting.crafting.BaseCubicCraftingRecipe.Ingredient;
+import racer290.bettercrafting.crafting.ShapedCubicCraftingRecipe;
 
 public class CommonProxy {
 	
@@ -43,7 +44,7 @@ public class CommonProxy {
 	
 	public void registerCubicRecipes() {
 		
-		ArrayList<CubicCraftingRecipe> recipes = new ArrayList<>();
+		ArrayList<BaseCubicCraftingRecipe> recipes = new ArrayList<>();
 		
 		Ingredient dirt = new Ingredient(Blocks.DIRT);
 		// Ingredient empty = new Ingredient(ItemStack.EMPTY);
@@ -58,7 +59,7 @@ public class CommonProxy {
 			
 		};
 		
-		recipes.add(new CubicCraftingRecipe(matrix, new ItemStack(Items.DIAMOND)));
+		recipes.add(new ShapedCubicCraftingRecipe(matrix, new ItemStack(Items.DIAMOND)));
 		
 		BetterCrafting.craftingManager.registerAll(recipes);
 		
