@@ -106,7 +106,7 @@ public class TileCraftingResult extends TileModInventory implements ITickable {
 				int y = current.getKey().getY() + 5;
 				int z = current.getKey().getZ() + 1;
 				
-				matrix[x][y][z] = ((TileCraftingSlot) this.world.getTileEntity(this.pos.add(current.getKey()))).getInventory().getStackInSlot(0);
+				matrix[y][z][x] = ((TileCraftingSlot) this.world.getTileEntity(this.pos.add(current.getKey()))).getInventory().getStackInSlot(0);
 				
 			}
 			
@@ -156,12 +156,13 @@ public class TileCraftingResult extends TileModInventory implements ITickable {
 				
 				.put(new BlockPos(2, -2, -1), Blocks.IRON_BARS).put(new BlockPos(2, -2, 0), Blocks.IRON_BARS).put(new BlockPos(2, -2, 1), Blocks.IRON_BARS)
 				
-				.put(new BlockPos(-1, -5, -1), BlockHelper.blockCraftingSlot).put(new BlockPos(0, -5, -1), BlockHelper.blockCraftingSlot).put(new BlockPos(1, -5, -1), BlockHelper.blockCraftingSlot).put(new BlockPos(-1, -5, 0), BlockHelper.blockCraftingSlot).put(new BlockPos(0, -5, 0), BlockHelper.blockCraftingSlot).put(new BlockPos(1, -5, 0), BlockHelper.blockCraftingSlot).put(new BlockPos(-1, -5, 1), BlockHelper.blockCraftingSlot).put(new BlockPos(0, -5, 1), BlockHelper.blockCraftingSlot).put(new BlockPos(1, -5, 1), BlockHelper.blockCraftingSlot)
+				.put(new BlockPos(-1, -5, -1), BlockHelper.blockCraftingSlot).put(new BlockPos(-1, -5, 0), BlockHelper.blockCraftingSlot).put(new BlockPos(-1, -5, 1), BlockHelper.blockCraftingSlot).put(new BlockPos(-1, -4, -1), BlockHelper.blockCraftingSlot).put(new BlockPos(-1, -4, 0), BlockHelper.blockCraftingSlot).put(new BlockPos(-1, -4, 1), BlockHelper.blockCraftingSlot).put(new BlockPos(-1, -3, -1), BlockHelper.blockCraftingSlot).put(new BlockPos(-1, -3, 0), BlockHelper.blockCraftingSlot).put(new BlockPos(-1, -3, 1), BlockHelper.blockCraftingSlot)
 				
-				.put(new BlockPos(-1, -4, -1), BlockHelper.blockCraftingSlot).put(new BlockPos(0, -4, -1), BlockHelper.blockCraftingSlot).put(new BlockPos(1, -4, -1), BlockHelper.blockCraftingSlot).put(new BlockPos(-1, -4, 0), BlockHelper.blockCraftingSlot).put(new BlockPos(0, -4, 0), BlockHelper.blockCraftingSlot).put(new BlockPos(1, -4, 0), BlockHelper.blockCraftingSlot).put(new BlockPos(-1, -4, 1), BlockHelper.blockCraftingSlot).put(new BlockPos(0, -4, 1), BlockHelper.blockCraftingSlot).put(new BlockPos(1, -4, 1), BlockHelper.blockCraftingSlot)
+				.put(new BlockPos(0, -5, -1), BlockHelper.blockCraftingSlot).put(new BlockPos(0, -5, 0), BlockHelper.blockCraftingSlot).put(new BlockPos(0, -5, 1), BlockHelper.blockCraftingSlot).put(new BlockPos(0, -4, -1), BlockHelper.blockCraftingSlot).put(new BlockPos(0, -4, 0), BlockHelper.blockCraftingSlot).put(new BlockPos(0, -4, 1), BlockHelper.blockCraftingSlot).put(new BlockPos(0, -3, -1), BlockHelper.blockCraftingSlot).put(new BlockPos(0, -3, 0), BlockHelper.blockCraftingSlot).put(new BlockPos(0, -3, 1), BlockHelper.blockCraftingSlot)
 				
-				.put(new BlockPos(-1, -3, -1), BlockHelper.blockCraftingSlot).put(new BlockPos(0, -3, -1), BlockHelper.blockCraftingSlot).put(new BlockPos(1, -3, -1), BlockHelper.blockCraftingSlot).put(new BlockPos(-1, -3, 0), BlockHelper.blockCraftingSlot).put(new BlockPos(0, -3, 0), BlockHelper.blockCraftingSlot).put(new BlockPos(1, -3, 0), BlockHelper.blockCraftingSlot).put(new BlockPos(-1, -3, 1), BlockHelper.blockCraftingSlot).put(new BlockPos(0, -3, 1), BlockHelper.blockCraftingSlot).put(new BlockPos(1, -3, 1), BlockHelper.blockCraftingSlot).build();
-		
+				.put(new BlockPos(1, -5, -1), BlockHelper.blockCraftingSlot).put(new BlockPos(1, -5, 0), BlockHelper.blockCraftingSlot).put(new BlockPos(1, -5, 1), BlockHelper.blockCraftingSlot).put(new BlockPos(1, -4, -1), BlockHelper.blockCraftingSlot).put(new BlockPos(1, -4, 0), BlockHelper.blockCraftingSlot).put(new BlockPos(1, -4, 1), BlockHelper.blockCraftingSlot).put(new BlockPos(1, -3, -1), BlockHelper.blockCraftingSlot).put(new BlockPos(1, -3, 0), BlockHelper.blockCraftingSlot).put(new BlockPos(1, -3, 1), BlockHelper.blockCraftingSlot)
+				
+				.build();
 	}
 	
 }

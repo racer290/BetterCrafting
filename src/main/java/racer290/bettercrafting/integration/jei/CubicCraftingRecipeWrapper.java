@@ -13,6 +13,7 @@ import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.item.ItemStack;
 import racer290.bettercrafting.crafting.BaseCubicCraftingRecipe.Ingredient;
 import racer290.bettercrafting.crafting.ShapedCubicCraftingRecipe;
+import racer290.bettercrafting.crafting.ShapelessCubicCraftingRecipe;
 
 public class CubicCraftingRecipeWrapper extends BlankRecipeWrapper {
 	
@@ -20,6 +21,8 @@ public class CubicCraftingRecipeWrapper extends BlankRecipeWrapper {
 	
 	private List<List<ItemStack>> input;
 	private ItemStack output;
+	
+	private boolean shapeless;
 	
 	public CubicCraftingRecipeWrapper(ShapedCubicCraftingRecipe wrapped) {
 		
@@ -47,6 +50,22 @@ public class CubicCraftingRecipeWrapper extends BlankRecipeWrapper {
 		
 	}
 	
+	public CubicCraftingRecipeWrapper(ShapelessCubicCraftingRecipe recipe) {
+		
+		this.input = new ArrayList<>();
+		
+		for (Ingredient in : recipe.getInput()) {
+			
+			this.input.add(in.getAll());
+			
+		}
+		
+		this.output = recipe.getOutput();
+		this.ticks = recipe.getTicks();
+		this.shapeless = true;
+		
+	}
+	
 	@Override
 	public void getIngredients(IIngredients ingredients) {
 		
@@ -61,6 +80,7 @@ public class CubicCraftingRecipeWrapper extends BlankRecipeWrapper {
 		FontRenderer font = minecraft.fontRendererObj;
 		
 		font.drawString(this.ticks + " ticks", 0, 10, Color.GRAY.getRGB());
+		if (this.shapeless) font.drawString("Shapeless", 10, 10, Color.GRAY.getRGB());
 		
 	}
 	

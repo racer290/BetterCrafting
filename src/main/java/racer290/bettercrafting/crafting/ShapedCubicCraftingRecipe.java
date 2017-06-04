@@ -171,6 +171,9 @@ public class ShapedCubicCraftingRecipe extends BaseCubicCraftingRecipe {
 				
 				for (int x = 0; x < ShapedCubicCraftingRecipe.DEFAULT_MATRIX_LENGTH; x++) {
 					
+					BetterCrafting.LOGGER.info("x: " + x + ", y: " + y + ", z: " + z);
+					BetterCrafting.LOGGER.info("Expected: " + this.getInputMatrix()[x][y][z].getRaw().toString() + ", got: " + matrix[x][y][z].getDisplayName());
+					
 					if (!this.getInputMatrix()[x][y][z].matches(matrix[x][y][z])) return false;
 					
 				}

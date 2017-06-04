@@ -114,6 +114,12 @@ public abstract class BaseCubicCraftingRecipe {
 			
 		}
 		
+		public Object getRaw() {
+			
+			return this.ingredientRaw;
+			
+		}
+		
 	}
 	
 }

@@ -11,30 +11,33 @@ import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Sets;
 
 import net.minecraft.item.ItemStack;
+import racer290.bettercrafting.BetterCrafting;
 
 public class CubicCraftingManager {
 	
+	private Set<BaseCubicCraftingRecipe> untranslated;
 	private Set<BaseCubicCraftingRecipe> recipes;
-	private Set<BaseCubicCraftingRecipe> rawRecipes;
 	
 	public CubicCraftingManager() {
 		
-		this.rawRecipes = Sets.newConcurrentHashSet();
 		this.recipes = Sets.newConcurrentHashSet();
+		this.untranslated = Sets.newConcurrentHashSet();
 		
 	}
 	
 	public void registerRecipe(BaseCubicCraftingRecipe recipe) {
 		
-		if (this.recipes.stream().map(current -> current.getOutput().getItem()).anyMatch(item -> recipe.getOutput().getItem() == item)) return;
+		if (this.untranslated.stream().map(current -> current.getOutput().getItem()).anyMatch(item -> recipe.getOutput().getItem().equals(item))) return;
 		
-		this.recipes.add(recipe);
+		this.untranslated.add(recipe);
 		
 		if (recipe instanceof ShapedCubicCraftingRecipe) {
 			
 			this.registerShapedRecipe((ShapedCubicCraftingRecipe) recipe);
 			
 		} else {
+			
+			this.registerShapelessRecipe((ShapelessCubicCraftingRecipe) recipe);
 			
 		}
 		
@@ -44,9 +47,15 @@ public class CubicCraftingManager {
 		
 		for (ShapedCubicCraftingRecipe current : recipe.getAllTranslated()) {
 			
-			this.rawRecipes.add(current);
+			this.recipes.add(current);
 			
 		}
+		
+	}
+	
+	public void registerShapelessRecipe(ShapelessCubicCraftingRecipe recipe) {
+		
+		this.recipes.add(recipe);
 		
 	}
 	
@@ -62,7 +71,7 @@ public class CubicCraftingManager {
 	
 	public @Nullable BaseCubicCraftingRecipe getRecipeForMatrix(ItemStack[][][] matrix) {
 		
-		for (BaseCubicCraftingRecipe current : this.rawRecipes) {
+		for (BaseCubicCraftingRecipe current : this.recipes) {
 			
 			if (current.matches(matrix)) return current;
 			
@@ -74,19 +83,15 @@ public class CubicCraftingManager {
 	
 	public void removeRecipe(@Nonnull ItemStack out) {
 		
-		Iterator<BaseCubicCraftingRecipe> it = this.rawRecipes.iterator();
-		
-		while (it.hasNext()) {
+		if (out.isEmpty()) {
 			
-			BaseCubicCraftingRecipe current = it.next();
+			BetterCrafting.LOGGER.warn("There are no recipes with an empty output! Skipping ..");
 			
-			if (current.getOutput().getItem() == out.getItem()) {
-				this.rawRecipes.remove(current);
-			}
+			return;
 			
 		}
 		
-		it = this.recipes.iterator();
+		Iterator<BaseCubicCraftingRecipe> it = this.recipes.iterator();
 		
 		while (it.hasNext()) {
 			
@@ -98,17 +103,29 @@ public class CubicCraftingManager {
 			
 		}
 		
-	}
-	
-	public ImmutableSet<BaseCubicCraftingRecipe> getRecipesRaw() {
+		it = this.untranslated.iterator();
 		
-		return ImmutableSet.copyOf(this.rawRecipes);
+		while (it.hasNext()) {
+			
+			BaseCubicCraftingRecipe current = it.next();
+			
+			if (current.getOutput().getItem() == out.getItem()) {
+				this.untranslated.remove(current);
+			}
+			
+		}
 		
 	}
 	
 	public ImmutableSet<BaseCubicCraftingRecipe> getRecipes() {
 		
 		return ImmutableSet.copyOf(this.recipes);
+		
+	}
+	
+	public ImmutableSet<BaseCubicCraftingRecipe> getRecipesUntranslated() {
+		
+		return ImmutableSet.copyOf(this.untranslated);
 		
 	}
 	

@@ -9,6 +9,7 @@ import net.minecraft.item.ItemStack;
 import racer290.bettercrafting.BetterCrafting;
 import racer290.bettercrafting.block.BlockHelper;
 import racer290.bettercrafting.crafting.ShapedCubicCraftingRecipe;
+import racer290.bettercrafting.crafting.ShapelessCubicCraftingRecipe;
 
 @JEIPlugin
 public class JEIBetterCraftingPlugin extends BlankModPlugin {
@@ -29,7 +30,18 @@ public class JEIBetterCraftingPlugin extends BlankModPlugin {
 			
 		}, CubicCraftingRecipeCategory.UID);
 		
-		registry.addRecipes(BetterCrafting.craftingManager.getRecipes(), CubicCraftingRecipeCategory.UID);
+		registry.handleRecipes(ShapelessCubicCraftingRecipe.class, new IRecipeWrapperFactory<ShapelessCubicCraftingRecipe>() {
+			
+			@Override
+			public IRecipeWrapper getRecipeWrapper(ShapelessCubicCraftingRecipe recipe) {
+				
+				return new CubicCraftingRecipeWrapper(recipe);
+				
+			}
+			
+		}, CubicCraftingRecipeCategory.UID);
+		
+		registry.addRecipes(BetterCrafting.craftingManager.getRecipesUntranslated(), CubicCraftingRecipeCategory.UID);
 		
 		registry.addRecipeCategoryCraftingItem(new ItemStack(BlockHelper.blockCraftingResult), CubicCraftingRecipeCategory.UID);
 		
