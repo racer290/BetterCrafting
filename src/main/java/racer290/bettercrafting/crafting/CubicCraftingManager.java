@@ -85,7 +85,7 @@ public class CubicCraftingManager {
 		
 		if (out.isEmpty()) {
 			
-			BetterCrafting.LOGGER.warn("There are no recipes with an empty output! Skipping ..");
+			BetterCrafting.LOGGER.warn("There can be no recipes with an empty output! Skipping ..");
 			
 			return;
 			

@@ -65,7 +65,7 @@ public class TileCraftingResult extends TileModInventory implements ITickable {
 		
 		this.getInventory().setStackInSlot(0, this.currentRecipe.getOutput());
 		
-		BetterCrafting.LOGGER.info("recipe finished");
+		// BetterCrafting.LOGGER.info("recipe finished");
 		
 		this.ticksCrafting = 0;
 		this.currentRecipe = null;

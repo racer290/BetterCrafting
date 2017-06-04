@@ -79,7 +79,7 @@ public class CubicCraftingRecipeCategory extends BlankRecipeCategory<IRecipeWrap
 			recipeLayout.getItemStacks().init(7 + baseSlot, true, 72, baseY + 36);
 			recipeLayout.getItemStacks().set(7 + baseSlot, recipeIngredients.get(7 + baseSlot));
 			recipeLayout.getItemStacks().init(8 + baseSlot, true, 48, baseY + 48);
-			recipeLayout.getItemStacks().set(8 + baseSlot, recipeIngredients.get(7 + baseSlot));
+			recipeLayout.getItemStacks().set(8 + baseSlot, recipeIngredients.get(8 + baseSlot));
 			
 		}
 		

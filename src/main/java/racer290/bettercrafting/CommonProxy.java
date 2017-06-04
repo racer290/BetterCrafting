@@ -9,6 +9,7 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.CraftingManager;
 import net.minecraft.item.crafting.IRecipe;
+import net.minecraftforge.fml.common.Loader;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
@@ -17,6 +18,7 @@ import racer290.bettercrafting.crafting.BaseCubicCraftingRecipe;
 import racer290.bettercrafting.crafting.BaseCubicCraftingRecipe.Ingredient;
 import racer290.bettercrafting.crafting.ShapedCubicCraftingRecipe;
 import racer290.bettercrafting.crafting.ShapelessCubicCraftingRecipe;
+import racer290.bettercrafting.integration.crafttweaker.CubicCraftingTweaker;
 
 public class CommonProxy {
 	
@@ -44,6 +46,12 @@ public class CommonProxy {
 	}
 	
 	public void postInit(FMLPostInitializationEvent evt) {
+		
+		if (Loader.isModLoaded("crafttweaker")) {
+			
+			CubicCraftingTweaker.register();
+			
+		}
 		
 	}
 	
