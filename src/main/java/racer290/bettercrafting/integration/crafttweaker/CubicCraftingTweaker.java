@@ -71,8 +71,6 @@ public class CubicCraftingTweaker {
 							
 							input[x][y][z] = Ingredient.EMPTY;
 							
-							BetterCrafting.LOGGER.entry();
-							
 						} else if (iinput[x][y][z] instanceof IOreDictEntry) {
 							
 							input[x][y][z] = new Ingredient(((IOreDictEntry) iinput[x][y][z]).getName());
@@ -172,9 +170,7 @@ public class CubicCraftingTweaker {
 		
 		Object stack = istack.getInternal();
 		
-		if (!(stack instanceof ItemStack)) {
-			MineTweakerAPI.getLogger().logError(istack.getDisplayName() + " is not a valid ItemStack!");
-		}
+		if (!(stack instanceof ItemStack)) MineTweakerAPI.getLogger().logError(istack.getDisplayName() + " is not a valid ItemStack!");
 		
 		return (ItemStack) stack;
 		

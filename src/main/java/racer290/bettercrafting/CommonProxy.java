@@ -57,6 +57,16 @@ public class CommonProxy {
 	
 	public void registerRecipes() {
 		
+		CraftingManager.getInstance().addRecipe(new ItemStack(BlockHelper.blockCraftingResult),
+				"oqo",
+				"qgq",
+				"oqo", 'o', Blocks.OBSIDIAN, 'q', Blocks.QUARTZ_BLOCK, 'g', Blocks.GLASS);
+		
+		CraftingManager.getInstance().addRecipe(new ItemStack(BlockHelper.blockCraftingSlot),
+				"sqs",
+				"qgq",
+				"sqs", 's', Blocks.STONE, 'q', Items.QUARTZ, 'g', Blocks.GLASS);
+		
 		ArrayList<BaseCubicCraftingRecipe> recipes = new ArrayList<>();
 		
 		Ingredient glass = new Ingredient(Blocks.GLASS);

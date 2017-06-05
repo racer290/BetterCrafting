@@ -97,9 +97,7 @@ public class CubicCraftingManager {
 			
 			BaseCubicCraftingRecipe current = it.next();
 			
-			if (current.getOutput().getItem() == out.getItem()) {
-				this.recipes.remove(current);
-			}
+			if (current.getOutput().getItem() == out.getItem()) this.recipes.remove(current);
 			
 		}
 		
@@ -109,9 +107,7 @@ public class CubicCraftingManager {
 			
 			BaseCubicCraftingRecipe current = it.next();
 			
-			if (current.getOutput().getItem() == out.getItem()) {
-				this.untranslated.remove(current);
-			}
+			if (current.getOutput().getItem() == out.getItem()) this.untranslated.remove(current);
 			
 		}
 		
