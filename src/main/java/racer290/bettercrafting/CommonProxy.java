@@ -37,11 +37,23 @@ public class CommonProxy {
 			
 		}
 		
+		BetterCraftingConfiguration.load(evt.getSuggestedConfigurationFile());
+		
 	}
 	
 	public void init(FMLInitializationEvent evt) {
 		
-		this.registerRecipes();
+		if (BetterCraftingConfiguration.recipeEnable) {
+			
+			BetterCrafting.LOGGER.info("Activating builting recipes!");
+			this.registerRecipes();
+			
+		} else {
+			
+			BetterCrafting.LOGGER.warn("The builtin recipes have been turned off in the mods's config");
+			BetterCrafting.LOGGER.warn("They will not be loaded, nor will tweaks to vanilla recipes.");
+			
+		}
 		
 	}
 	

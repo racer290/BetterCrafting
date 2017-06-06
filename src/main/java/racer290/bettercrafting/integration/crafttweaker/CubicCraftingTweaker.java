@@ -9,6 +9,7 @@ import minetweaker.api.item.IItemStack;
 import minetweaker.api.oredict.IOreDictEntry;
 import net.minecraft.item.ItemStack;
 import racer290.bettercrafting.BetterCrafting;
+import racer290.bettercrafting.BetterCraftingConfiguration;
 import racer290.bettercrafting.crafting.BaseCubicCraftingRecipe;
 import racer290.bettercrafting.crafting.BaseCubicCraftingRecipe.Ingredient;
 import racer290.bettercrafting.crafting.ShapedCubicCraftingRecipe;
@@ -48,6 +49,18 @@ public class CubicCraftingTweaker {
 	}
 	
 	public static void register() {
+		
+		if (!BetterCraftingConfiguration.ctEnable) {
+			
+			BetterCrafting.LOGGER.warn("The integration with CraftTweaker has been turned off in the mod's config!");
+			BetterCrafting.LOGGER.info("Hence, the registration of the BetterCrafting CraftTweaker interface has been stopped.");
+			BetterCrafting.LOGGER.info("Scripts containing recipe changes for BetterCrafting are likely to throw errors on startup.");
+			
+			return;
+			
+		}
+		
+		BetterCrafting.LOGGER.info("Attempting to register tweak class with CraftTweaker ..");
 		
 		MineTweakerAPI.registerClass(CubicCraftingTweaker.class);
 		
@@ -170,7 +183,9 @@ public class CubicCraftingTweaker {
 		
 		Object stack = istack.getInternal();
 		
-		if (!(stack instanceof ItemStack)) MineTweakerAPI.getLogger().logError(istack.getDisplayName() + " is not a valid ItemStack!");
+		if (!(stack instanceof ItemStack)) {
+			MineTweakerAPI.getLogger().logError(istack.getDisplayName() + " is not a valid ItemStack!");
+		}
 		
 		return (ItemStack) stack;
 		

@@ -16,7 +16,7 @@ public abstract class BaseCubicCraftingRecipe {
 	protected int ticks;
 	
 	public static final int DEFAULT_MATRIX_LENGTH = 3;
-	public static final int DEFAULT_TICKS_PER_OPERATION = 200; // aka 10 secs
+	public static int DEFAULT_TICKS_PER_OPERATION = 200;
 	
 	public abstract boolean matches(ItemStack[][][] matrix);
 	
