@@ -2,28 +2,27 @@ package racer290.bettercrafting.crafting;
 
 import java.util.Set;
 
-import javax.annotation.Nonnull;
-
 import com.google.common.collect.Sets;
 
 import net.minecraft.item.ItemStack;
 import racer290.bettercrafting.BetterCrafting;
+import racer290.bettercrafting.util.BetterMathHelper.CubicMatrix3x3;
 
 public class ShapedCubicCraftingRecipe extends BaseCubicCraftingRecipe {
 	
-	private Ingredient[][][] input;
+	private CubicMatrix3x3<Ingredient> input;
 	
 	private final int sizeX;
 	private final int sizeY;
 	private final int sizeZ;
 	
-	public ShapedCubicCraftingRecipe(Ingredient[][][] in, ItemStack out) {
+	public ShapedCubicCraftingRecipe(CubicMatrix3x3<Ingredient> in, ItemStack out) {
 		
 		this(in, out, DEFAULT_TICKS_PER_OPERATION, true);
 		
 	}
 	
-	public ShapedCubicCraftingRecipe(Ingredient[][][] in, @Nonnull ItemStack out, int ticks, boolean translate) {
+	public ShapedCubicCraftingRecipe(CubicMatrix3x3<Ingredient> in, ItemStack out, int ticks, boolean translate) {
 		
 		if (ticks < 1) {
 			
@@ -53,7 +52,7 @@ public class ShapedCubicCraftingRecipe extends BaseCubicCraftingRecipe {
 					
 					for (int x = 0; x < DEFAULT_MATRIX_LENGTH; x++) {
 						
-						if (!in[x][y][z].matches(ItemStack.EMPTY)) {
+						if (!in.get(x, y, z).isEmpty()) {
 							
 							if (minX > x) {
 								minX = x;
@@ -111,8 +110,12 @@ public class ShapedCubicCraftingRecipe extends BaseCubicCraftingRecipe {
 					
 					for (int x = 0; x < this.sizeX; x++) {
 						
-						// Translating recipe starting point to (0, 0, 0) with that x - minX stuff
-						this.input[x - minX][y - minY][z - minZ] = in[x][y][z];
+						try {
+							
+							// Translating recipe starting point to (0, 0, 0) with that x - minX stuff
+							this.input.set(x - minX, y - minY, z - minZ, in.get(x, y, z));
+							
+						} catch (IndexOutOfBoundsException ex) {}
 						
 					}
 					
@@ -163,7 +166,7 @@ public class ShapedCubicCraftingRecipe extends BaseCubicCraftingRecipe {
 	}
 	
 	@Override
-	public boolean matches(ItemStack[][][] matrix) {
+	public boolean matches(CubicMatrix3x3<ItemStack> matrix) {
 		
 		for (int z = 0; z < ShapedCubicCraftingRecipe.DEFAULT_MATRIX_LENGTH; z++) {
 			
@@ -171,7 +174,7 @@ public class ShapedCubicCraftingRecipe extends BaseCubicCraftingRecipe {
 				
 				for (int x = 0; x < ShapedCubicCraftingRecipe.DEFAULT_MATRIX_LENGTH; x++) {
 					
-					if (!this.getInputMatrix()[x][y][z].matches(matrix[x][y][z])) return false;
+					if (!this.getInputMatrix().get(x, y, z).matches(matrix.get(x, y, z))) return false;
 					
 				}
 				
@@ -183,7 +186,7 @@ public class ShapedCubicCraftingRecipe extends BaseCubicCraftingRecipe {
 		
 	}
 	
-	public Ingredient[][][] getInputMatrix() {
+	public CubicMatrix3x3<Ingredient> getInputMatrix() {
 		
 		return this.input;
 		
@@ -203,9 +206,9 @@ public class ShapedCubicCraftingRecipe extends BaseCubicCraftingRecipe {
 		
 	}
 	
-	private Ingredient[][][] offsetInputMatrix(int offsetX, int offsetY, int offsetZ) {
+	private CubicMatrix3x3<Ingredient> offsetInputMatrix(int offsetX, int offsetY, int offsetZ) {
 		
-		Ingredient[][][] offset = nullMatrix();
+		CubicMatrix3x3<Ingredient> offset = nullMatrix();
 		
 		for (int z = 0; z < DEFAULT_MATRIX_LENGTH; z++) {
 			
@@ -215,11 +218,11 @@ public class ShapedCubicCraftingRecipe extends BaseCubicCraftingRecipe {
 					
 					try {
 						
-						offset[x + offsetX][y + offsetY][z + offsetZ] = this.getInputMatrix()[x][y][z];
+						offset.set(x + offsetX, y + offsetY, z + offsetZ, this.getInputMatrix().get(x, y, z));
 						
 					} catch (ArrayIndexOutOfBoundsException ex) {
 						
-						if (!this.getInputMatrix()[x][y][z].matches(ItemStack.EMPTY)) throw ex;
+						if (!this.getInputMatrix().get(x, y, z).isEmpty()) throw ex;
 						
 					}
 					

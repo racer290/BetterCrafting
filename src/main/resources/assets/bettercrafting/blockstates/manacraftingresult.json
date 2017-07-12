@@ -1,12 +1,12 @@
 {
 	"forge_marker": 1,
 	"defaults": {
-		"model": "bettercrafting:craftingslot"
+		"model": "bettercrafting:manacraftingslot"
 	},
 	"variants": {
 		"normal": [{}],
 		"inventory": [{
-			"parent": "bettercrafting:craftingslot"
+			"parent": "bettercrafting:manacraftingslot"
 		}]
 	}
 }

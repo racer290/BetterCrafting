@@ -1,4 +1,4 @@
-package racer290.bettercrafting.block;
+package racer290.bettercrafting.integration.botania.block;
 
 import net.minecraft.block.ITileEntityProvider;
 import net.minecraft.block.material.Material;
@@ -17,15 +17,17 @@ import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import racer290.bettercrafting.BetterCrafting;
-import racer290.bettercrafting.render.CraftingSlotRenderer;
-import racer290.bettercrafting.tile.TileCraftingSlot;
+import racer290.bettercrafting.block.ModBlock;
+import racer290.bettercrafting.integration.botania.render.ManaCraftingResultRenderer;
+import racer290.bettercrafting.integration.botania.tile.TileManaCraftingResult;
 
-public class BlockCraftingSlot extends ModBlock implements ITileEntityProvider {
+
+public class BlockManaCraftingResult extends ModBlock implements ITileEntityProvider {
 	
-	public BlockCraftingSlot() {
+	public BlockManaCraftingResult() {
 		
-		super(Material.IRON, "craftingslot");
-		GameRegistry.registerTileEntity(TileCraftingSlot.class, BetterCrafting.MODID + ".craftingslot");
+		super(Material.IRON, "manacraftingresult");
+		GameRegistry.registerTileEntity(TileManaCraftingResult.class, BetterCrafting.MODID + ".manacraftingresult");
 		
 		this.setHardness(0.5f);
 		this.setCreativeTab(CreativeTabs.DECORATIONS);
@@ -35,7 +37,7 @@ public class BlockCraftingSlot extends ModBlock implements ITileEntityProvider {
 	@Override
 	public boolean onBlockActivated(World world, BlockPos pos, IBlockState state, EntityPlayer playerIn, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
 		
-		((TileCraftingSlot) world.getTileEntity(pos)).rightClick(playerIn, hand);
+		((TileManaCraftingResult) world.getTileEntity(pos)).rightClick(playerIn, hand);
 		
 		return true;
 		
@@ -44,19 +46,15 @@ public class BlockCraftingSlot extends ModBlock implements ITileEntityProvider {
 	@Override
 	public TileEntity createNewTileEntity(World worldIn, int meta) {
 		
-		return new TileCraftingSlot();
+		return new TileManaCraftingResult();
 		
 	}
 	
-	// Messing around with rendering related things from here on
-	
-	// Set render layer to make the glass in the middle of the texture
-	// transparent
 	@Override
 	@SideOnly(Side.CLIENT)
 	public BlockRenderLayer getBlockLayer() {
 		
-		return BlockRenderLayer.CUTOUT_MIPPED;
+		return BlockRenderLayer.TRANSLUCENT;
 		
 	}
 	
@@ -88,7 +86,7 @@ public class BlockCraftingSlot extends ModBlock implements ITileEntityProvider {
 		
 		super.initVisuals(0, "inventory");
 		
-		ClientRegistry.bindTileEntitySpecialRenderer(TileCraftingSlot.class, new CraftingSlotRenderer());
+		ClientRegistry.bindTileEntitySpecialRenderer(TileManaCraftingResult.class, new ManaCraftingResultRenderer());
 		
 	}
 	

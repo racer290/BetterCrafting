@@ -9,6 +9,7 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.NonNullList;
 import net.minecraftforge.oredict.OreDictionary;
+import racer290.bettercrafting.util.BetterMathHelper.CubicMatrix3x3;
 
 public abstract class BaseCubicCraftingRecipe {
 	
@@ -18,7 +19,7 @@ public abstract class BaseCubicCraftingRecipe {
 	public static final int DEFAULT_MATRIX_LENGTH = 3;
 	public static int DEFAULT_TICKS_PER_OPERATION = 200;
 	
-	public abstract boolean matches(ItemStack[][][] matrix);
+	public abstract boolean matches(CubicMatrix3x3<ItemStack> matrix);
 	
 	public ItemStack getOutput() {
 		
@@ -32,25 +33,9 @@ public abstract class BaseCubicCraftingRecipe {
 		
 	}
 	
-	public static Ingredient[][][] nullMatrix() {
+	public static CubicMatrix3x3<Ingredient> nullMatrix() {
 		
-		Ingredient[][][] matrix = new Ingredient[DEFAULT_MATRIX_LENGTH][DEFAULT_MATRIX_LENGTH][DEFAULT_MATRIX_LENGTH];
-		
-		for (int z = 0; z < DEFAULT_MATRIX_LENGTH; z++) {
-			
-			for (int y = 0; y < DEFAULT_MATRIX_LENGTH; y++) {
-				
-				for (int x = 0; x < DEFAULT_MATRIX_LENGTH; x++) {
-					
-					matrix[x][y][z] = Ingredient.EMPTY;
-					
-				}
-				
-			}
-			
-		}
-		
-		return matrix;
+		return new CubicMatrix3x3<>(Ingredient.EMPTY);
 		
 	}
 	
@@ -92,8 +77,7 @@ public abstract class BaseCubicCraftingRecipe {
 		
 		public boolean matches(ItemStack stack) {
 			
-			if (this.stacks == null)
-				return stack.isEmpty();
+			if (this.stacks == null) return stack.isEmpty();
 			else if (this.stacks.size() > 1) {
 				
 				for (ItemStack current : this.stacks) {
@@ -105,6 +89,12 @@ public abstract class BaseCubicCraftingRecipe {
 			} else if (this.stacks.size() == 1) return this.stacks.get(0).getItem() == stack.getItem() && this.stacks.get(0).getMetadata() == stack.getMetadata() && stack.getItemDamage() <= this.stacks.get(0).getItemDamage();
 			
 			return false;
+			
+		}
+		
+		public boolean isEmpty() {
+			
+			return this.stacks == null;
 			
 		}
 		

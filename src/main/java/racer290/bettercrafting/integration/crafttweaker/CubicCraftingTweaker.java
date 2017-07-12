@@ -14,6 +14,7 @@ import racer290.bettercrafting.crafting.BaseCubicCraftingRecipe;
 import racer290.bettercrafting.crafting.BaseCubicCraftingRecipe.Ingredient;
 import racer290.bettercrafting.crafting.ShapedCubicCraftingRecipe;
 import racer290.bettercrafting.crafting.ShapelessCubicCraftingRecipe;
+import racer290.bettercrafting.util.BetterMathHelper.CubicMatrix3x3;
 import stanhebben.zenscript.annotations.ZenClass;
 import stanhebben.zenscript.annotations.ZenMethod;
 
@@ -100,7 +101,7 @@ public class CubicCraftingTweaker {
 				
 			}
 			
-			this.recipe = new ShapedCubicCraftingRecipe(input, CubicCraftingTweaker.getStack(ioutput), ticks, true);
+			this.recipe = new ShapedCubicCraftingRecipe(new CubicMatrix3x3<>(input), CubicCraftingTweaker.getStack(ioutput), ticks, true);
 			
 		}
 		

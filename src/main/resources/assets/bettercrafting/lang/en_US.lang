@@ -1,4 +1,6 @@
 tile.bettercrafting.craftingslot.name=Crafting Slot
 tile.bettercrafting.craftingresult.name=Result Container
+tile.bettercrafting.manacraftingslot.name=Mana Crafting Slot
+tile.bettercrafting.manacraftingresult.name=Mana Crafting Result
 
 bettercrafting.jei.title=Cubic Crafting

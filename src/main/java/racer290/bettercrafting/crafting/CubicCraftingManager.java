@@ -12,6 +12,7 @@ import com.google.common.collect.Sets;
 
 import net.minecraft.item.ItemStack;
 import racer290.bettercrafting.BetterCrafting;
+import racer290.bettercrafting.util.BetterMathHelper.CubicMatrix3x3;
 
 public class CubicCraftingManager {
 	
@@ -69,7 +70,7 @@ public class CubicCraftingManager {
 		
 	}
 	
-	public @Nullable BaseCubicCraftingRecipe getRecipeForMatrix(ItemStack[][][] matrix) {
+	public @Nullable BaseCubicCraftingRecipe getRecipeForMatrix(CubicMatrix3x3<ItemStack> matrix) {
 		
 		for (BaseCubicCraftingRecipe current : this.recipes) {
 			

@@ -1,20 +1,16 @@
-package racer290.bettercrafting.render;
-
-import javax.annotation.Nonnull;
+package racer290.bettercrafting.integration.botania.render;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.block.model.ItemCameraTransforms.TransformType;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
-import racer290.bettercrafting.tile.TileCraftingSlot;
+import racer290.bettercrafting.integration.botania.tile.TileManaCraftingSlot;
+import vazkii.botania.common.Botania;
 
-@SideOnly(Side.CLIENT)
-public class CraftingSlotRenderer extends TileEntitySpecialRenderer<TileCraftingSlot> {
+public class ManaCraftingSlotRenderer extends TileEntitySpecialRenderer<TileManaCraftingSlot> {
 	
 	@Override
-	public void renderTileEntityAt(@Nonnull TileCraftingSlot tile, double x, double y, double z, float partticks, int digProgress) {
+	public void renderTileEntityAt(TileManaCraftingSlot te, double x, double y, double z, float partialTicks, int destroyStage) {
 		
 		GlStateManager.pushMatrix();
 		
@@ -31,9 +27,11 @@ public class CraftingSlotRenderer extends TileEntitySpecialRenderer<TileCrafting
 		
 		GlStateManager.rotate(rotateY, 0, 1, 0);
 		
-		Minecraft.getMinecraft().getRenderItem().renderItem(tile.getStoredItem(), TransformType.GROUND);
+		Minecraft.getMinecraft().getRenderItem().renderItem(te.getStoredItem(), TransformType.GROUND);
 		
 		GlStateManager.popMatrix();
+		
+		Botania.proxy.sparkleFX(x, y, z, 0.2f, 0.2f, 0.2f, (float) (0.5f * Math.random()), 5);
 		
 	}
 	

@@ -9,6 +9,7 @@ import com.google.common.collect.Lists;
 
 import net.minecraft.item.ItemStack;
 import racer290.bettercrafting.BetterCrafting;
+import racer290.bettercrafting.util.BetterMathHelper.CubicMatrix3x3;
 
 
 public class ShapelessCubicCraftingRecipe extends BaseCubicCraftingRecipe {
@@ -67,27 +68,23 @@ public class ShapelessCubicCraftingRecipe extends BaseCubicCraftingRecipe {
 	}
 	
 	@Override
-	public boolean matches(ItemStack[][][] matrix) {
+	public boolean matches(CubicMatrix3x3<ItemStack> matrix) {
 		
 		ArrayList<Ingredient> missing = Lists.newArrayList(this.input);
 		
-		for (ItemStack[][] z : matrix) {
+		for (int x = 0; x < DEFAULT_MATRIX_LENGTH; x++) {
 			
-			for (ItemStack[] y : z) {
+			for (int y = 0; y < DEFAULT_MATRIX_LENGTH; y++) {
 				
-				for (ItemStack x : y) {
+				for (int z = 0; z < DEFAULT_MATRIX_LENGTH; z++) {
 					
+					ItemStack stack = matrix.get(x, y, z);
 					Iterator<Ingredient> it = missing.iterator();
 					
 					while (it.hasNext()) {
 						
-						Ingredient next = it.next();
-						
-						if (next.matches(x)) {
-							
+						if (it.next().matches(stack)) {
 							it.remove();
-							break;
-							
 						}
 						
 					}

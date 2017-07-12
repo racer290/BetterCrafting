@@ -15,7 +15,7 @@ import net.minecraftforge.items.ItemHandlerHelper;
 import racer290.bettercrafting.BetterCrafting;
 import racer290.bettercrafting.block.BlockHelper;
 import racer290.bettercrafting.crafting.BaseCubicCraftingRecipe;
-import racer290.bettercrafting.crafting.ShapedCubicCraftingRecipe;
+import racer290.bettercrafting.util.BetterMathHelper.CubicMatrix3x3;
 
 public class TileCraftingResult extends TileModInventory implements ITickable {
 	
@@ -51,6 +51,8 @@ public class TileCraftingResult extends TileModInventory implements ITickable {
 		
 		if (this.currentRecipe == null) return;
 		
+		BetterCrafting.LOGGER.info("Recipe found for output: " + this.currentRecipe.getOutput().getDisplayName());
+		
 		if (++this.ticksCrafting < this.currentRecipe.getTicks()) return;
 		
 		for (BlockPos current : TileCraftingResult.MULTIBLOCK_MAPPINGS.keySet()) {
@@ -63,9 +65,9 @@ public class TileCraftingResult extends TileModInventory implements ITickable {
 			
 		}
 		
-		this.getInventory().setStackInSlot(0, this.currentRecipe.getOutput());
+		BetterCrafting.LOGGER.info("recipe finished");
 		
-		// BetterCrafting.LOGGER.info("recipe finished");
+		this.getInventory().setStackInSlot(0, this.currentRecipe.getOutput());
 		
 		this.ticksCrafting = 0;
 		this.currentRecipe = null;
@@ -86,27 +88,21 @@ public class TileCraftingResult extends TileModInventory implements ITickable {
 		
 	}
 	
-	private ItemStack[][][] getMatrix() {
+	private CubicMatrix3x3<ItemStack> getMatrix() {
 		
-		ItemStack[][][] matrix = new ItemStack[ShapedCubicCraftingRecipe.DEFAULT_MATRIX_LENGTH][ShapedCubicCraftingRecipe.DEFAULT_MATRIX_LENGTH][ShapedCubicCraftingRecipe.DEFAULT_MATRIX_LENGTH];
+		CubicMatrix3x3<ItemStack> matrix = new CubicMatrix3x3<>(ItemStack.EMPTY);
 		
 		for (Entry<BlockPos, Block> current : TileCraftingResult.MULTIBLOCK_MAPPINGS.entrySet()) {
 			
 			if (current.getValue() == BlockHelper.blockCraftingSlot) {
 				
-				if (!(this.world.getTileEntity(this.pos.add(current.getKey())) instanceof TileCraftingSlot)) {
-					
-					BetterCrafting.LOGGER.info(this.world.getBlockState(this.pos.add(current.getKey())).getBlock().getLocalizedName());
-					
-					return null;
-					
-				}
+				if (!(this.world.getTileEntity(this.pos.add(current.getKey())) instanceof TileCraftingSlot)) return null;
 				
 				int x = current.getKey().getX() + 1;
 				int y = current.getKey().getY() + 5;
 				int z = current.getKey().getZ() + 1;
 				
-				matrix[y][z][x] = ((TileCraftingSlot) this.world.getTileEntity(this.pos.add(current.getKey()))).getInventory().getStackInSlot(0);
+				matrix.set(y, z, x, ((TileCraftingSlot) this.world.getTileEntity(this.pos.add(current.getKey()))).getInventory().getStackInSlot(0));
 				
 			}
 			

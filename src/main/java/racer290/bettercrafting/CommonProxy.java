@@ -18,7 +18,9 @@ import racer290.bettercrafting.crafting.BaseCubicCraftingRecipe;
 import racer290.bettercrafting.crafting.BaseCubicCraftingRecipe.Ingredient;
 import racer290.bettercrafting.crafting.ShapedCubicCraftingRecipe;
 import racer290.bettercrafting.crafting.ShapelessCubicCraftingRecipe;
+import racer290.bettercrafting.integration.botania.BotaniaHelper;
 import racer290.bettercrafting.integration.crafttweaker.CubicCraftingTweaker;
+import racer290.bettercrafting.util.BetterMathHelper.CubicMatrix3x3;
 
 public class CommonProxy {
 	
@@ -26,9 +28,17 @@ public class CommonProxy {
 		
 		BlockHelper.registerBlocks();
 		
+		if (Loader.isModLoaded("botania")) {
+			BotaniaHelper.registerBlocks();
+		}
+		
 		try {
 			
 			BlockHelper.registerItemBlocks();
+			
+			if (Loader.isModLoaded("botania")) {
+				BotaniaHelper.registerItemBlocks();
+			}
 			
 		} catch (IllegalArgumentException | IllegalAccessException ex) {
 			
@@ -95,7 +105,7 @@ public class CommonProxy {
 			
 		};
 		
-		recipes.add(new ShapedCubicCraftingRecipe(matrix, new ItemStack(Blocks.BEACON)));
+		recipes.add(new ShapedCubicCraftingRecipe(new CubicMatrix3x3<>(matrix), new ItemStack(Blocks.BEACON)));
 		
 		Ingredient[] list = new Ingredient[] {
 				
@@ -123,6 +133,10 @@ public class CommonProxy {
 		}
 		
 		BetterCrafting.LOGGER.info("Recipes registered, the beacon recipe has been tweaked!");
+		
+		if (Loader.isModLoaded("botania")) {
+			BotaniaHelper.registerRecipes();
+		}
 		
 	}
 	

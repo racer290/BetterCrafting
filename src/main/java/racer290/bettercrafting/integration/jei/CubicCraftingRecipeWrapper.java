@@ -11,6 +11,7 @@ import mezz.jei.api.recipe.BlankRecipeWrapper;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.item.ItemStack;
+import racer290.bettercrafting.crafting.BaseCubicCraftingRecipe;
 import racer290.bettercrafting.crafting.BaseCubicCraftingRecipe.Ingredient;
 import racer290.bettercrafting.crafting.ShapedCubicCraftingRecipe;
 import racer290.bettercrafting.crafting.ShapelessCubicCraftingRecipe;
@@ -30,13 +31,13 @@ public class CubicCraftingRecipeWrapper extends BlankRecipeWrapper {
 		
 		ArrayList<List<ItemStack>> in = Lists.newArrayList();
 		
-		for (Ingredient[][] a : wrapped.getInputMatrix()) {
+		for (int x = 0; x < BaseCubicCraftingRecipe.DEFAULT_MATRIX_LENGTH; x++) {
 			
-			for (Ingredient[] b : a) {
+			for (int y = 0; y < BaseCubicCraftingRecipe.DEFAULT_MATRIX_LENGTH; y++) {
 				
-				for (Ingredient current : b) {
+				for (int z = 0; z < BaseCubicCraftingRecipe.DEFAULT_MATRIX_LENGTH; z++) {
 					
-					in.add(current.getAll());
+					in.add(wrapped.getInputMatrix().get(x, y, z).getAll());
 					
 				}
 				
@@ -80,7 +81,9 @@ public class CubicCraftingRecipeWrapper extends BlankRecipeWrapper {
 		FontRenderer font = minecraft.fontRendererObj;
 		
 		font.drawString(this.ticks + " ticks", 0, 10, Color.GRAY.getRGB());
-		if (this.shapeless) font.drawString("Shapeless", 10, 10, Color.GRAY.getRGB());
+		if (this.shapeless) {
+			font.drawString("Shapeless", 10, 10, Color.GRAY.getRGB());
+		}
 		
 	}
 	

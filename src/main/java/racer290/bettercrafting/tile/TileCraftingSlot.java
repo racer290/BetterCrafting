@@ -4,6 +4,8 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumHand;
 import net.minecraftforge.items.ItemHandlerHelper;
+import racer290.bettercrafting.tile.TileModInventory;
+import racer290.bettercrafting.tile.TileModInventory.CustomItemHandler;
 
 public class TileCraftingSlot extends TileModInventory {
 	
