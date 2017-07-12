@@ -1,7 +1,6 @@
 package racer290.bettercrafting.integration.botania.crafting;
 
 import net.minecraft.item.ItemStack;
-import racer290.bettercrafting.BetterCrafting;
 import racer290.bettercrafting.crafting.BaseCubicCraftingRecipe.Ingredient;
 import racer290.bettercrafting.util.BetterMathHelper.CubicMatrix3x3;
 import vazkii.botania.common.item.ModItems;
@@ -65,11 +64,7 @@ public abstract class BaseManaCubicCraftingRecipe {
 		
 		public boolean isEmpty() {
 			
-			boolean ok = this.getIngredient().matches(ItemStack.EMPTY);
-			
-			BetterCrafting.LOGGER.info(ok);
-			
-			return ok;
+			return this.getIngredient().matches(ItemStack.EMPTY);
 			
 		}
 		
