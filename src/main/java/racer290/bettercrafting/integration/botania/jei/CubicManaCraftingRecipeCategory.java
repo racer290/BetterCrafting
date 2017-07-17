@@ -1,4 +1,4 @@
-package racer290.bettercrafting.integration.jei;
+package racer290.bettercrafting.integration.botania.jei;
 
 import java.util.List;
 
@@ -13,14 +13,16 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import racer290.bettercrafting.BetterCrafting;
 import racer290.bettercrafting.crafting.BaseCubicCraftingRecipe;
+import racer290.bettercrafting.integration.jei.CubicCraftingRecipeCategory;
+import racer290.bettercrafting.integration.jei.CubicCraftingRecipeWrapper;
 
-public class CubicCraftingRecipeCategory extends BlankRecipeCategory<IRecipeWrapper> {
+public class CubicManaCraftingRecipeCategory extends BlankRecipeCategory<IRecipeWrapper> {
 	
 	private IDrawable background;
 	
-	public static final String UID = BetterCrafting.MODID;
+	public static final String UID = BetterCrafting.MODID + "_botania";
 	
-	public CubicCraftingRecipeCategory(IGuiHelper guiHelper) {
+	public CubicManaCraftingRecipeCategory(IGuiHelper guiHelper) {
 		
 		this.background = guiHelper.createDrawable(new ResourceLocation(BetterCrafting.MODID, "textures/gui/jei_background.png"), 0, 0, 114, 232, 114, 232);
 		
@@ -29,14 +31,14 @@ public class CubicCraftingRecipeCategory extends BlankRecipeCategory<IRecipeWrap
 	@Override
 	public String getUid() {
 		
-		return CubicCraftingRecipeCategory.UID;
+		return CubicManaCraftingRecipeCategory.UID;
 		
 	}
 	
 	@Override
 	public String getTitle() {
 		
-		return I18n.format(CubicCraftingRecipeCategory.UID + ".jei.title");
+		return I18n.format(CubicCraftingRecipeCategory.UID + ".jei.title.botania");
 		
 	}
 	
@@ -59,6 +61,7 @@ public class CubicCraftingRecipeCategory extends BlankRecipeCategory<IRecipeWrap
 			int baseSlot = layer * 9;
 			int baseY = 30 + (2 - layer) * 68;
 			
+			// XXX Add runes
 			recipeLayout.getItemStacks().init(0 + baseSlot, true, 48, baseY);
 			recipeLayout.getItemStacks().set(0 + baseSlot, recipeIngredients.get(0 + baseSlot));
 			recipeLayout.getItemStacks().init(1 + baseSlot, true, 24, baseY + 12);

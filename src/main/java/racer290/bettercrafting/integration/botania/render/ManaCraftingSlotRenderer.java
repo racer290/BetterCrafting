@@ -4,9 +4,11 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.block.model.ItemCameraTransforms.TransformType;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 import racer290.bettercrafting.integration.botania.tile.TileManaCraftingSlot;
-import vazkii.botania.common.Botania;
 
+@SideOnly(Side.CLIENT)
 public class ManaCraftingSlotRenderer extends TileEntitySpecialRenderer<TileManaCraftingSlot> {
 	
 	@Override
@@ -17,7 +19,7 @@ public class ManaCraftingSlotRenderer extends TileEntitySpecialRenderer<TileMana
 		// Time in ticks
 		float time = Minecraft.getSystemTime();
 		
-		float deltaY = (float) (Math.sin((time / 5000) * Math.PI * 2) * 0.2) / 2;
+		float deltaY = (float) (Math.sin((time / 2500) * Math.PI) * 0.2) / 2;
 		
 		// Translate directly to block center, some strange magic at y param
 		GlStateManager.translate(x + 0.5, y + 0.325 + deltaY, z + 0.5);
@@ -29,9 +31,18 @@ public class ManaCraftingSlotRenderer extends TileEntitySpecialRenderer<TileMana
 		
 		Minecraft.getMinecraft().getRenderItem().renderItem(te.getStoredItem(), TransformType.GROUND);
 		
-		GlStateManager.popMatrix();
+		rotateY *= -5 / 3;
 		
-		Botania.proxy.sparkleFX(x, y, z, 0.2f, 0.2f, 0.2f, (float) (0.5f * Math.random()), 5);
+		float deltaX = (float) (Math.cos((time / 5000) * Math.PI) * 0.25);
+		float deltaZ = (float) (Math.sin((time / 5000) * Math.PI) * 0.25);
+		
+		GlStateManager.translate(x + deltaX + 0.5, y + 0.325 - deltaY, z + deltaZ + 0.5);
+		
+		GlStateManager.rotate(rotateY, 0, 1, 0);
+		
+		Minecraft.getMinecraft().getRenderItem().renderItem(te.getStoredRune(), TransformType.GROUND);
+		
+		GlStateManager.popMatrix();
 		
 	}
 	

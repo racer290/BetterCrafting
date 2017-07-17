@@ -99,11 +99,11 @@ public class BetterMathHelper {
 			
 		}
 		
-		public CubicMatrix3x3<T> rotateY(int angle) {
+		public CubicMatrix3x3<T> rotateY(int angle, T backup) {
 			
-			if (Integer.signum(angle) == -1) return this.rotateY(4 + angle);
+			if (Integer.signum(angle) == -1) return this.rotateY(4 + angle, backup);
 			
-			CubicMatrix3x3<T> matrix = new CubicMatrix3x3<>();
+			CubicMatrix3x3<T> matrix = new CubicMatrix3x3<>(backup);
 			
 			switch (angle) {
 				

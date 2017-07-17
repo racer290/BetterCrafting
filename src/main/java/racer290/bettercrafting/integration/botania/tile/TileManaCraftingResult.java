@@ -50,7 +50,9 @@ public class TileManaCraftingResult extends TileModInventory implements ITickabl
 		
 		for (int angle = 0; angle < 4; angle++) {
 			
-			if (this.recipe == null) this.recipe = BotaniaHelper.craftingManager.getRecipeForMatrix(cachedMatrix.rotateY(angle));
+			if (this.recipe == null) {
+				this.recipe = BotaniaHelper.craftingManager.getRecipeForMatrix(cachedMatrix.rotateY(angle, new RealRuneConstellation(ItemStack.EMPTY, ItemStack.EMPTY)));
+			}
 			
 		}
 		
@@ -100,7 +102,7 @@ public class TileManaCraftingResult extends TileModInventory implements ITickabl
 	
 	public CubicMatrix3x3<RealRuneConstellation> getMatrixAndRunes() {
 		
-		CubicMatrix3x3<RealRuneConstellation> ret = new CubicMatrix3x3<>();
+		CubicMatrix3x3<RealRuneConstellation> ret = new CubicMatrix3x3<>(new RealRuneConstellation(ItemStack.EMPTY, ItemStack.EMPTY));
 		
 		for (Entry<BlockPos, IBlockState> e : MULTIBLOCK_MAPPINGS.entrySet()) {
 			

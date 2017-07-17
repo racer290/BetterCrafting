@@ -47,7 +47,13 @@ public class TileCraftingResult extends TileModInventory implements ITickable {
 			
 		}
 		
-		this.currentRecipe = BetterCrafting.craftingManager.getRecipeForMatrix(this.getMatrix());
+		CubicMatrix3x3<ItemStack> cachedMatrix = this.getMatrix();
+		
+		for (int angle = 0; angle < 4; angle++) {
+			
+			if (this.currentRecipe == null) this.currentRecipe = BetterCrafting.craftingManager.getRecipeForMatrix(cachedMatrix.rotateY(angle, ItemStack.EMPTY));
+			
+		}
 		
 		if (this.currentRecipe == null) return;
 		

@@ -152,6 +152,8 @@ public class ShapedManaCubicCraftingRecipe extends BaseManaCubicCraftingRecipe {
 				
 				for (int x = 0; x < BaseCubicCraftingRecipe.DEFAULT_MATRIX_LENGTH; x++) {
 					
+					BetterCrafting.LOGGER.info(x + " " + y + " " + z);
+					
 					if (!this.getInputMatrix().get(x, y, z).matches(matrix.get(x, y, z))) return false;
 					
 				}
